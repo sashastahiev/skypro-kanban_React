@@ -4,6 +4,7 @@ import Main from "./components/Main";
 import PopBrowse from "./components/PopBrowse";
 import PopNewCard from "./components/PopNewCard";
 import PopUser from "./components/PopUser";
+//Создание проекта и разделение App.jsx на компоненты
 function App() {
   return (
     <div class="wrapper">
