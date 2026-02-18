@@ -7,7 +7,7 @@ import PopUser from "./components/PopUser";
 //Создание проекта и разделение App.jsx на компоненты
 function App() {
   return (
-    <div class="wrapper">
+    <div className="wrapper">
       <PopUser />
       <PopNewCard />
       <PopBrowse />
