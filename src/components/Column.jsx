@@ -1,17 +1,47 @@
 import Card from "./Card"
 import { cardList } from "../js/data"
-function Column({type, text}) {
+import styled from "styled-components";
+function Column({text}) {
 const cardsByStatus = cardList.filter(x => x.status == text);
-// const content = GetHtmlCardsByStatus(cardsByStatus);
+
+const SColumnTitle = styled.div`
+  padding: 0 10px;
+  margin: 15px 0;
+  color: #94A6BE;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+`
+const SMainColumn = styled.div`
+  width: 20%;
+  margin: 0 auto;
+  display: block;
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+    margin: 0 auto;
+    display: block;
+  }
+`
+const SCards = styled.div`
+  width: 100%;
+  display: block;
+  position: relative;
+  @media screen and (max-width: 1200px) {
+    width: 100%;
+    display: flex;
+    overflow-y: auto;
+  }
+`
   return (
-    <div className="main__column column">
-      <div className="column__title">
-        <p type={type}>{text}</p>
-      </div>
-      <div className="cards">
+    <SMainColumn>
+      <SColumnTitle>
+        {text}
+      </SColumnTitle>
+      <SCards>
         {cardsByStatus.map(item => (<Card key={item.id} item={item} />))}
-      </div>
-    </div>
+      </SCards>
+    </SMainColumn>
   );
 }
 

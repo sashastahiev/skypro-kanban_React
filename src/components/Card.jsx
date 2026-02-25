@@ -1,3 +1,90 @@
+import styled from "styled-components";
+import ContentLoader from 'react-content-loader'
+const Scards__item = styled.div`
+  padding: 5px;
+  animation-name: card-animation;
+  animation-duration: 500ms;
+  animation-timing-function: linear;
+`
+const Scards__card = styled.div`
+  width: 220px;
+  height: 130px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: stretch;
+  padding: 15px 13px 19px;
+  
+  @media screen and (max-width: 1200px) {
+    width: 220px;
+    height: 130px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: stretch;
+    padding: 15px 13px 19px;
+  }
+`
+const Scards__group = styled.div`
+  display: flex;
+  width: 194px;
+  justify-content: space-between;
+`
+const Scard__content = styled.div`
+  height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+`
+const Scard__title = styled.h3`
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 18px;
+  color: #000000;
+  margin-bottom: 10px;
+  padding-top: 5px;
+`
+const Scard__date = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+& svg {
+  width: 13px;
+}
+& p {
+  margin-left: 6px;
+  font-size: 10px;
+  line-height: 13px;
+  color: #94a6be;
+  letter-spacing: 0.2px;
+}
+`
+const Sp = styled.p`
+  margin-left: 6px;
+  font-size: 10px;
+  line-height: 13px;
+  color: #94a6be;
+  letter-spacing: 0.2px;
+`
+const Scard__btn = styled.div`
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 2px;
+`
+const Scircle = styled.div`
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: #94a6be;
+`
 function Card ({item}) {
   let colorTopic = "";
   if (item.theme == "Research") colorTopic = "_green";
@@ -5,23 +92,25 @@ function Card ({item}) {
   else if (item.theme == "Copywritting") colorTopic = "_purple";
   return (
     <>
-      <div className="cards__item">
-        <div className="cards__card card">
-          <div className="card__group">
+      <Scards__item>
+        <Scards__card>
+          <Scards__group>
             <div className={'card__theme ' + colorTopic}>
               <p className={colorTopic}>{item.theme}</p>
             </div>
-            <a href="#">
-              <div></div>
-              <div></div>
-              <div></div>
+            <a href="#popBrowse" target="_self">
+              <Scard__btn>
+                <Scircle></Scircle>
+                <Scircle></Scircle>
+                <Scircle></Scircle>
+              </Scard__btn>
             </a>
-          </div>
-          <div className="card__content">
+          </Scards__group>
+          <Scard__content>
             <a href="#" target="_blank">
-              <h3 className="card__title">{item.title}</h3>
+              <Scard__title>{item.title}</Scard__title>
             </a>
-            <div className="card__date">
+            <Scard__date>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="13"
@@ -51,11 +140,10 @@ function Card ({item}) {
                 </defs>
               </svg>
               <p>{item.date}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      `
+            </Scard__date>
+          </Scard__content>
+        </Scards__card>
+      </Scards__item>
     </>
   );
 }
