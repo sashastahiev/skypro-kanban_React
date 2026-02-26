@@ -47,7 +47,7 @@ const Scard__title = styled.h3`
   line-height: 18px;
   color: #000000;
   margin-bottom: 10px;
-  padding-top: 5px;
+  padding-top: 10px;
 `
 const Scard__date = styled.div`
   display: flex;
