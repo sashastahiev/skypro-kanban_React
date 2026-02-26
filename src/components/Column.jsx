@@ -1,9 +1,6 @@
 import Card from "./Card"
 import { cardList } from "../js/data"
 import styled from "styled-components";
-function Column({text}) {
-const cardsByStatus = cardList.filter(x => x.status == text);
-
 const SColumnTitle = styled.div`
   padding: 0 10px;
   margin: 15px 0;
@@ -33,6 +30,8 @@ const SCards = styled.div`
     overflow-y: auto;
   }
 `
+function Column({text}) {
+const cardsByStatus = cardList.filter(x => x.status == text);
   return (
     <SMainColumn>
       <SColumnTitle>
