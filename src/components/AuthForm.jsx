@@ -133,7 +133,7 @@ function AuthForm({IsSign}) {
         {IsSign ? 
         <StyledTitle>Вход</StyledTitle> : 
         <StyledTitle>Регистрация</StyledTitle>}
-        {IsSign ?
+        {!IsSign ?
          <StyledInputName
           name="name"
           id="formname"
@@ -162,7 +162,7 @@ function AuthForm({IsSign}) {
           ) : (
             <>
               <StyledParagraph>Уже есть аккаунт?</StyledParagraph>
-              <Link to="/sign-up">
+              <Link to="/sign-in">
                 <StyledLink>Войти здесь!</StyledLink>
               </Link>
             </>
