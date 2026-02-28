@@ -1,14 +1,26 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import App from "./App.jsx";
+import MainPage from "./pages/MainPage";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
+import PageNotFound from "./pages/PageNotFound";
 
 createRoot(document.getElementById("root")).render(
    <StrictMode>
       {/* BrowserRouter позволяет управлять маршрутизацией в приложении */}
       <BrowserRouter>
-         <App />
+         <Routes>
+         {/* Главная страница */}
+         <Route path="/" element={<MainPage/>} />
+         {/* Страница входа */}
+         <Route path="/sign-in" element={<SignInPage />} />
+         {/* Страница регистрации */}
+         <Route path="/sign-up" element={<SignUpPage />} />
+         {/* Страница 404 */}
+         <Route path="/*" element={<PageNotFound />} />
+      </Routes>
       </BrowserRouter>
    </StrictMode>
 );

@@ -1,9 +1,9 @@
-import Column from "../components/Column";
+import Column from "./Column";
 import styled from "styled-components";
 const Smain = styled.main`
   width: 100%;
   background-color: #eaeef6;
-`
+`;
 const Scontainer = styled.main`
   max-width: 1260px;
   width: 100%;
@@ -13,7 +13,7 @@ const Scontainer = styled.main`
     width: 100%;
     padding: 0 16px;
   }
-`
+`;
 const SmainBlock = styled.main`
   width: 100%;
   margin: 0 auto;
@@ -23,25 +23,25 @@ const SmainBlock = styled.main`
     margin: 0 auto;
     padding: 40px 0 64px;
   }
-`
+`;
 const SmainContent = styled.main`
   width: 100%;
   display: flex;
   @media screen and (max-width: 1200px) {
     display: block;
   }
-`
+`;
 function Main() {
   return (
     <Smain>
       <Scontainer>
         <SmainBlock>
           <SmainContent>
-            <Column text="Без статуса"/>
-            <Column text="Нужно сделать"/>
-            <Column text="В работе"/>
-            <Column text="Тестирование"/>
-            <Column text="Готово"/>
+            <Column text="Без статуса" />
+            <Column text="Нужно сделать" />
+            <Column text="В работе" />
+            <Column text="Тестирование" />
+            <Column text="Готово" />
           </SmainContent>
         </SmainBlock>
       </Scontainer>

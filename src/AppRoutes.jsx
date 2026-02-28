@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
@@ -15,18 +15,16 @@ function AppRoutes() {
    }, []);
 
    return (
-      <Router>
-         <Routes>
-            {/* Главная страница */}
-            <Route path="/" element={<MainPage loading={loading} />} />
-            {/* Страница входа */}
-            <Route path="/sign-in" element={<SignInPage />} />
-            {/* Страница регистрации */}
-            <Route path="/sign-up" element={<SignUpPage />} />
-            {/* Страница 404 */}
-            <Route path="/*" element={<PageNotFound />} />
-         </Routes>
-      </Router>
+      <Routes>
+         {/* Главная страница */}
+         <Route path="/" element={<MainPage loading={loading} />} />
+         {/* Страница входа */}
+         <Route path="/sign-in" element={<SignInPage />} />
+         {/* Страница регистрации */}
+         <Route path="/sign-up" element={<SignUpPage />} />
+         {/* Страница 404 */}
+         <Route path="/*" element={<PageNotFound />} />
+      </Routes>
    );
 }
 

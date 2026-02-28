@@ -1,22 +1,30 @@
 import "../App.css";
 import Header from "../components/Header";
-import Main from "../components/Main";
+import Content from "../components/Content";
 import PopBrowse from "../components/PopBrowse";
 import PopNewCard from "../components/PopNewCard";
 import PopUser from "../components/PopUser";
-import Loader from "../components/Loader"
+import Loader from "../components/Loader";
+import { useState, useEffect } from 'react';
 //Создание проекта и разделение App.jsx на компоненты
-function MainPage({loading}) {
+function MainPage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+        setLoading(false);
+    }, 1000);
+  }, []);
+
   return (
-    loading ? <Loader/> :
-      <div className="wrapper">
+    <div className="wrapper">
       <PopUser />
       <PopNewCard />
       <PopBrowse />
       <Header />
-      <Main/>
+      {loading ? <Loader /> : <Content />}
     </div>
   );
-};
+}
 
 export default MainPage;

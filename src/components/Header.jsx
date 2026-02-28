@@ -66,12 +66,12 @@ function Header() {
           <div className="header__block">
             <Sheader__logo className=" _show _light">
               <a href="" target="_self">
-                <img src="public/images/logo.png" alt="logo" />
+                <img src="/public/images/logo.png" alt="logo" />
               </a>
             </Sheader__logo>
             <Sheader__logo className=" _dark">
               <a href="" target="_self">
-                <img src="public/images/logo_dark.png" alt="logo" />
+                <img src="/public/images/logo_dark.png" alt="logo" />
               </a>
             </Sheader__logo>
             <Sheader__nav >

@@ -2,7 +2,7 @@ import styled from "styled-components"
 
 const Sloader = styled.div`
   text-align: center;
-  margin-top: 20px;
+  margin-top: 40vh;
 `
 const Sspinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);
