@@ -1,8 +1,8 @@
 import AuthForm from "../components/AuthForm";
 
-function SignInPage() {
+function SignInPage({setIsAuth}) {
     return (
-        <AuthForm IsSign={true}/>
+        <AuthForm IsSign={true} setIsAuth={setIsAuth}/>
     )
 }
 

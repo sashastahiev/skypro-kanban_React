@@ -121,10 +121,11 @@ const StyledLink = styled.div`
   color: rgba(148, 166, 190, 0.4);
   margin: 0;
 `;
-function AuthForm({IsSign}) {
+function AuthForm({IsSign, setIsAuth}) {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
+    setIsAuth(true);
     navigate("/");
   }
   return (
@@ -155,14 +156,14 @@ function AuthForm({IsSign}) {
           {IsSign ? (
             <>
               <StyledParagraph>Нужно зарегистрироваться?</StyledParagraph>
-              <Link to="/sign-up">
+              <Link to="/register">
                 <StyledLink>Регистрируйтесь здесь</StyledLink>
               </Link>
             </>
           ) : (
             <>
               <StyledParagraph>Уже есть аккаунт?</StyledParagraph>
-              <Link to="/sign-in">
+              <Link to="/login">
                 <StyledLink>Войти здесь!</StyledLink>
               </Link>
             </>

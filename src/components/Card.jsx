@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ContentLoader from 'react-content-loader'
+import { Link } from "react-router-dom";
 const Scards__item = styled.div`
   padding: 5px;
   animation-name: card-animation;
@@ -98,13 +99,13 @@ function Card ({item}) {
             <div className={'card__theme ' + colorTopic}>
               <p className={colorTopic}>{item.theme}</p>
             </div>
-            <a href="#popBrowse" target="_self">
+            <Link to={"/card/" + item.id}>
               <Scard__btn>
                 <Scircle></Scircle>
                 <Scircle></Scircle>
                 <Scircle></Scircle>
               </Scard__btn>
-            </a>
+            </Link>
           </Scards__group>
           <Scard__content>
             <a href="#" target="_blank">

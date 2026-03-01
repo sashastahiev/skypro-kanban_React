@@ -122,7 +122,7 @@ body {
 }
 
 .pop-exit {
-  display: none;
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 320px;
@@ -283,7 +283,7 @@ body {
 }
 
 .pop-new-card {
-  display: none;
+  display: block;
   width: 100%;
   min-width: 375px;
   height: 100%;
@@ -454,7 +454,7 @@ body {
 }
 .calendar__cells {
   width: 182px;
-  height: 126px;
+  height: auto;
   display: flex;
   flex-wrap: wrap;
 }
@@ -549,7 +549,7 @@ body {
 }
 
 .pop-browse {
-  display: none;
+  display: block;
   width: 100%;
   height: 100%;
   min-width: 375px;
@@ -608,6 +608,7 @@ body {
   line-height: 24px;
 }
 .pop-browse__wrap {
+  position: relative;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -641,6 +642,7 @@ body {
   flex-direction: column;
 }
 .form-browse__area {
+  position: absolute;
   max-width: 370px;
   width: 100%;
   outline: none;
@@ -651,8 +653,8 @@ body {
   font-size: 14px;
   line-height: 1;
   letter-spacing: -0.14px;
-  margin-top: 14px;
-  height: 200px;
+  margin-top: 28px;
+  height: 85%;
 }
 .form-browse__area::-moz-placeholder {
   font-weight: 400;

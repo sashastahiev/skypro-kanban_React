@@ -6,6 +6,7 @@ import PopNewCard from "../components/PopNewCard";
 import PopUser from "../components/PopUser";
 import Loader from "../components/Loader";
 import { useState, useEffect } from 'react';
+import { Outlet } from "react-router-dom";
 //Создание проекта и разделение App.jsx на компоненты
 function MainPage() {
   const [loading, setLoading] = useState(true);
@@ -13,16 +14,14 @@ function MainPage() {
   useEffect(() => {
     setTimeout(() => {
         setLoading(false);
-    }, 1000);
-  }, []);
+    }, 500);
+  }, [loading]);
 
   return (
     <div className="wrapper">
-      <PopUser />
-      <PopNewCard />
-      <PopBrowse />
       <Header />
       {loading ? <Loader /> : <Content />}
+      <Outlet />
     </div>
   );
 }

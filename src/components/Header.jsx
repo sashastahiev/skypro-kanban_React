@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
 const Sheader = styled.header`
   width: 100%;
@@ -76,7 +77,7 @@ function Header() {
             </Sheader__logo>
             <Sheader__nav >
               <button className="header__btn-main-new _hover01" id="btnMainNew">
-                <a href="#popNewCard">Создать новую задачу</a>
+                <Link to="/card/add">Создать новую задачу</Link>
               </button>
               <Sheader__user className=" _hover02 cursor" onClick={modalWindow}>
                 Ivan Ivanov
@@ -93,7 +94,7 @@ function Header() {
                   <input type="checkbox" className="checkbox" name="checkbox" />
                 </div>
                 <button type="button" className="_hover03">
-                  <a href="#popExit">Выйти</a>
+                  <Link to="/Exit">Выйти</Link>
                 </button>
               </div> : ''}
             </Sheader__nav>
