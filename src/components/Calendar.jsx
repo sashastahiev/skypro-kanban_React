@@ -5,8 +5,6 @@ const Calendar = ({currentDateMonth}) => {
   const currentDate = currentDateMonth;
   const [calendarDays, setCalendarDays] = useState([]);
   const weekDays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-  console.log(currentDate)
-  console.log(currentDateMonth)
   // Генерация календаря
   useEffect(() => {
     const year = currentDate.getFullYear();

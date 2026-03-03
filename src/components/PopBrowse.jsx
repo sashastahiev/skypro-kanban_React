@@ -21,9 +21,9 @@ function PopBrowse({item}) {
     setCurrentDate(next => new Date(next.getFullYear(), next.getMonth() + 1, 1));
   };
   let colorTopic = "";
-  if (item.theme == "Research") colorTopic = "_green";
-  else if (item.theme == "Web Design") colorTopic = "_orange";
-  else if (item.theme == "Copywritting") colorTopic = "_purple";
+  if (item.topic == "Research") colorTopic = "_green";
+  else if (item.topic == "Web Design") colorTopic = "_orange";
+  else if (item.topic == "Copywritting") colorTopic = "_purple";
   return (
     <>
       <div className="pop-browse" id="popBrowse">
@@ -33,7 +33,7 @@ function PopBrowse({item}) {
               <div className="pop-browse__top-block">
                 <h3 className="pop-browse__ttl">{item.title}</h3>
                 <div className={"categories__theme theme-top " + colorTopic + " _active-category"}>
-                  <p className={colorTopic}>{item.theme}</p>
+                  <p className={colorTopic}>{item.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__status status">
@@ -60,7 +60,7 @@ function PopBrowse({item}) {
                       id="textArea01"
                       readOnly
                       placeholder="Введите описание задачи..."
-                    ></textarea>
+                    >{item.description}</textarea>
                   </div>
                 </form>
                 <div className="pop-new-card__calendar calendar">

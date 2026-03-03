@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import ContentLoader from 'react-content-loader'
+import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
 const Scards__item = styled.div`
   padding: 5px;
   animation-name: card-animation;
   animation-duration: 500ms;
   animation-timing-function: linear;
-`
+`;
 const Scards__card = styled.div`
   width: 220px;
   height: 130px;
@@ -17,7 +17,7 @@ const Scards__card = styled.div`
   align-items: flex-start;
   justify-content: stretch;
   padding: 15px 13px 19px;
-  
+
   @media screen and (max-width: 1200px) {
     width: 220px;
     height: 130px;
@@ -29,19 +29,19 @@ const Scards__card = styled.div`
     justify-content: stretch;
     padding: 15px 13px 19px;
   }
-`
+`;
 const Scards__group = styled.div`
   display: flex;
   width: 194px;
   justify-content: space-between;
-`
+`;
 const Scard__content = styled.div`
   height: 64px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: space-between;
-`
+`;
 const Scard__title = styled.h3`
   font-size: 14px;
   font-weight: 500;
@@ -49,29 +49,29 @@ const Scard__title = styled.h3`
   color: #000000;
   margin-bottom: 10px;
   padding-top: 10px;
-`
+`;
 const Scard__date = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-& svg {
-  width: 13px;
-}
-& p {
-  margin-left: 6px;
-  font-size: 10px;
-  line-height: 13px;
-  color: #94a6be;
-  letter-spacing: 0.2px;
-}
-`
+  & svg {
+    width: 13px;
+  }
+  & p {
+    margin-left: 6px;
+    font-size: 10px;
+    line-height: 13px;
+    color: #94a6be;
+    letter-spacing: 0.2px;
+  }
+`;
 const Sp = styled.p`
   margin-left: 6px;
   font-size: 10px;
   line-height: 13px;
   color: #94a6be;
   letter-spacing: 0.2px;
-`
+`;
 const Scard__btn = styled.div`
   width: 24px;
   height: 24px;
@@ -79,27 +79,27 @@ const Scard__btn = styled.div`
   align-items: center;
   justify-content: space-around;
   padding: 2px;
-`
+`;
 const Scircle = styled.div`
   width: 4px;
   height: 4px;
   border-radius: 50%;
   background-color: #94a6be;
-`
-function Card ({item}) {
+`;
+function Card({ item }) {
   let colorTopic = "";
-  if (item.theme == "Research") colorTopic = "_green";
-  else if (item.theme == "Web Design") colorTopic = "_orange";
-  else if (item.theme == "Copywritting") colorTopic = "_purple";
+  if (item.topic == "Research") colorTopic = "_green";
+  else if (item.topic == "Web Design") colorTopic = "_orange";
+  else if (item.topic == "Copywriting") colorTopic = "_purple";
   return (
     <>
       <Scards__item>
         <Scards__card>
           <Scards__group>
-            <div className={'card__theme ' + colorTopic}>
-              <p className={colorTopic}>{item.theme}</p>
+            <div className={"card__theme " + colorTopic}>
+              <p className={colorTopic}>{item.topic}</p>
             </div>
-            <Link to={"/card/" + item.id}>
+            <Link to={"/card/" + item._id}>
               <Scard__btn>
                 <Scircle></Scircle>
                 <Scircle></Scircle>
