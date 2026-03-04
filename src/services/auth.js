@@ -8,6 +8,7 @@ export async function signIn(userData) {
             "Content-Type": "",
          },
       });
+      console.log(data.data.user)
       return data.data.user;
    } catch (error) {
       throw new Error(error.response.data.error);

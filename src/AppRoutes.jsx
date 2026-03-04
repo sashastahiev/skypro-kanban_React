@@ -9,6 +9,7 @@ import PopUserPage from "./pages/PopUserPage";
 import CardId from "./pages/card/{id)"
 import { useState } from "react";
 import PrivateRoute from "./pages/PrivateRoute";
+
 function AppRoutes() {
     const [isAuth, setIsAuth] = useState(false);
     return (

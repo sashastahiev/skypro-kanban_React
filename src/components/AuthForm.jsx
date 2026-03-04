@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn, signUp } from "../services/auth";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import BaseInput from "./BaseInput";
+import { AuthProvider } from './components/AuthContext';
 const StyledTop = styled.section`
   display: flex;
   justify-content: center;
@@ -126,7 +127,9 @@ const StyledLink = styled.div`
 
 const AuthForm = ({ IsSign, setIsAuth }) => {
   const navigate = useNavigate();
-
+  const { login } = useContext(AuthProvider);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   // состояние полей
   const [formData, setFormData] = useState({
     name: "",
