@@ -1,9 +1,11 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { signIn, signUp } from "../services/auth";
-import { useState, useContext } from "react";
+import { signUp } from "../services/auth";
+import { useState } from "react";
+import {useContext} from "react"
 import BaseInput from "./BaseInput";
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider } from '../components/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
 const StyledTop = styled.section`
   display: flex;
   justify-content: center;
@@ -125,11 +127,10 @@ const StyledLink = styled.div`
   margin: 0;
 `;
 
-const AuthForm = ({ IsSign, setIsAuth }) => {
+ const AuthForm = ({ IsSign, setIsAuth}) => {
   const navigate = useNavigate();
-  const { login } = useContext(AuthProvider);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const context = useContext(AuthProvider)
+  const notify = () => toast("Вы успешно зарегистрированы!");
   // состояние полей
   const [formData, setFormData] = useState({
     name: "",
@@ -173,7 +174,6 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
 
   // функция, которая отслеживает в полях изменения
   // и меняет состояние компонента
-  // eslint-disable-next-line no-unused-vars
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({...formData,[name]: value,});
@@ -182,20 +182,32 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
   };
 
   // функция отправки формы
-  const handleSubmit = async (e) => {
+  const handleSubmit =  async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     try {
-      const data = IsSign
-        ? await signIn({ login: formData.login, password: formData.password })
+      if (!context || !context.login) {
+        setError("Система авторизации недоступна");
+        return;
+      }
+      const success = IsSign
+        ? await context.login(formData.email, formData.password)
         : await signUp(formData);
-
-      if (data) {
-        setIsAuth(true);
-        localStorage.setItem("userInfo", JSON.stringify(data));
+      if (!success) {
+        setError('Неверный email или пароль');
+      }
+      else if (success && IsSign) {
+        setIsAuth(true)
         navigate("/");
+      }
+      else if (success && !IsSign) {
+        localStorage.setItem("userInfo", JSON.stringify(success));
+        notify()
+        setTimeout(() => {
+          navigate("/login");
+        }, 2000);
       }
     } catch (err) {
       setError(err.message);
@@ -233,6 +245,7 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
             placeholder="Эл. почта"
             value={formData.login}
             onChange={handleChange}
+            required
           />
         <BaseInput
           tag={StyledInputPassword}
@@ -243,6 +256,7 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
           placeholder="Пароль"
           value={formData.password}
           onChange={handleChange} 
+          required
         />
         <p style={{ color: "red", margin: "10px 0" }}>{error}</p>
         <StyledButton onClick={handleSubmit}>{IsSign ? "Войти" : "Зарегистрироваться"}</StyledButton> 
@@ -264,6 +278,7 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
           )}
         </StyledFooter>
       </StyledForm>
+      <ToastContainer />
     </StyledTop>
   );
 };

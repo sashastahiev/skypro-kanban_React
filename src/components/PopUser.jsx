@@ -4,7 +4,7 @@ function PopUser({setIsAuth}) {
    const navigate = useNavigate();
    function handleLogout(e) {
       e.preventDefault();
-      setIsAuth(false);
+      setIsAuth(false)
       navigate("/login");
    }
   return (

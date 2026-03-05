@@ -9,26 +9,26 @@ import PopUserPage from "./pages/PopUserPage";
 import CardId from "./pages/card/{id)"
 import { useState } from "react";
 import PrivateRoute from "./pages/PrivateRoute";
-
+import { AuthProvider } from "./components/AuthContext";
 function AppRoutes() {
     const [isAuth, setIsAuth] = useState(false);
     return (
-    <Routes>
-        <Route element={<PrivateRoute IsAuth={isAuth}/>}>
-            {/* Главная страница */}
-            <Route path="/" element={<MainPage/>}>
-                <Route path="/card/add" element={<NewCardPage />} />
-                <Route path="/Exit" element={<PopUserPage setIsAuth={setIsAuth}/>} />
-                <Route path="/card/:id" element={<CardId />} />
+        <Routes>
+            <Route element={<PrivateRoute IsAuth={isAuth}/>}>
+                {/* Главная страница */}
+                <Route path="/" element={<MainPage/>}>
+                    <Route path="/card/add" element={<NewCardPage />} />
+                    <Route path="/Exit" element={<PopUserPage setIsAuth={setIsAuth}/>} />
+                    <Route path="/card/:id" element={<CardId />} />
+                </Route>
             </Route>
-        </Route>
-        {/* Страница входа */}
-        <Route path="/login" element={<SignInPage setIsAuth={setIsAuth}/>} />
-        {/* Страница регистрации */}
-        <Route path="/register" element={<SignUpPage />} />
-        {/* Страница 404 */}
-        <Route path="/*" element={<PageNotFound />} />
-    </Routes>
+            {/* Страница входа */}
+            <Route path="/login" element={<SignInPage setIsAuth={setIsAuth}/>} />
+            {/* Страница регистрации */}
+            <Route path="/register" element={<SignUpPage />} />
+            {/* Страница 404 */}
+            <Route path="/*" element={<PageNotFound />} />
+        </Routes>
     )
 }
 
