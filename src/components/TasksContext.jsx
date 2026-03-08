@@ -1,21 +1,23 @@
 import { createContext, useState } from 'react';
 import { cardList } from '../js/data';
+import { useNavigate } from "react-router-dom";
 const TasksContext = createContext();
 
 export function TasksProvider({ children }) {
   const [tasks, setTasks] = useState(cardList);
-
+  const navigate = useNavigate()
   // Функция добавления новой задачи
-  const addTask = (title) => {
+  const addTask = (taskData) => {
     const newTask =  {
-    _id: Math.random(),
-    theme: "Web Design",
-    title: {title},
-    description: {title},
+    _id: taskData._id,
+    topic: taskData.topic,
+    title: taskData.title,
+    description: taskData.description,
     date: new Date(),
-    status: "Без статуса",
+    status: taskData.status,
   };
     setTasks((prevTasks) => [...prevTasks, newTask]);
+    navigate("/")
   };
 
   // Функция переключения статуса задачи
@@ -30,6 +32,7 @@ export function TasksProvider({ children }) {
   // Функция удаления задачи
   const deleteTask = (id) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
+    navigate("/");
   };
 
   return (

@@ -1,26 +1,65 @@
 import { Link } from "react-router-dom";
 import Calendar from "./Calendar";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ThemeContext from "./ThemeContext";
+import TasksContext from "./TasksContext";
 
 function PopNewCard() {
   const [currentDate, setCurrentDate] = useState(new Date());
-    const getMonthYearTitle = () => {
-      const monthNames = [
-        'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-        'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-      ];
-      const month = monthNames[currentDate.getMonth()];
-      const year = currentDate.getFullYear();
-      return `${month} ${year}`;
-    };
-    const goToPreviousMonth = () => {
-      setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
-    };
-    const goToNextMonth = () => {
-      setCurrentDate(next => new Date(next.getFullYear(), next.getMonth() + 1, 1));
-    };
+  const {addTask} = useContext(TasksContext)
+   const [taskData,setTaskData] = useState({
+    _id: Math.random().toString(36).slice(2, 10),
+    topic:"",
+    title:"",
+    description:"",
+    date:"",
+    status:"",
+  });
+  useEffect(() => {
+    console.log(taskData)
+  })
+  const getMonthYearTitle = () => {
+    const monthNames = [
+      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
+      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
+    ];
+    const month = monthNames[currentDate.getMonth()];
+    const year = currentDate.getFullYear();
+    return `${month} ${year}`;
+  };
+  const goToPreviousMonth = () => {
+    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+  };
+  const goToNextMonth = () => {
+    setCurrentDate(next => new Date(next.getFullYear(), next.getMonth() + 1, 1));
+  };
   const {theme} = useContext(ThemeContext)
+
+  const setStatus = (data) => {
+     setTaskData(prev => ({
+    ...prev,
+    status: data
+  }));
+  }
+  const setTopic = (data) => {
+     setTaskData(prev => ({
+    ...prev,
+    topic: data
+  }));
+  }
+  const setTitle = (event) => {
+     setTaskData(prev => ({
+    ...prev,
+    title: event.target.value
+  }));
+  }
+  const setDescription = (event) => {
+     setTaskData(prev => ({
+    ...prev,
+    description: event.target.value
+  }));
+  }
+
   return (
     <div className="pop-new-card">
       <div className="pop-new-card__container">
@@ -36,6 +75,31 @@ function PopNewCard() {
             <Link to="/" className="pop-new-card__close">
               &#10006;
             </Link>
+            <div className="pop-browse__status status">
+              <p style={{color: !theme ? "white" : ""}} className="status__p subttl">Статус</p>
+              <div className="status__themes"> 
+                <div onClick={() => setStatus("Без статуса")} 
+                className={taskData.status === "Без статуса" ? "status__theme _gray" : "status__theme"}>
+                  <p className={taskData.status === "Без статуса" ? "_gray" : ""}>Без статуса</p> 
+                </div>
+                <div onClick={() => setStatus("Нужно сделать")} 
+                className={taskData.status === "Нужно сделать" ? "status__theme _gray" : "status__theme"}>
+                  <p className={taskData.status === "Нужно сделать" ? "_gray" : ""}>Нужно сделать</p> 
+                </div>
+                <div onClick={() => setStatus("В работе")} 
+                className={taskData.status === "В работе" ? "status__theme _gray" : "status__theme"}>
+                  <p className={taskData.status === "В работе" ? "_gray" : ""}>В работе</p>
+                </div>
+                <div onClick={() => setStatus("Тестирование")} 
+                className={taskData.status === "Тестирование" ? "status__theme _gray" : "status__theme"}>
+                  <p className={taskData.status === "Тестирование" ? "_gray" : ""}>Тестирование</p>
+                </div>
+                <div onClick={() => setStatus("Готово")} 
+                className={taskData.status === "Готово" ? "status__theme _gray" : "status__theme"}>
+                  <p className={taskData.status === "Готово" ? "_gray" : ""}>Готово</p>
+                </div>
+              </div>
+            </div>
             <div className="pop-new-card__wrap">
               <form
                 className="pop-new-card__form form-new"
@@ -43,7 +107,7 @@ function PopNewCard() {
                 action="#"
               >
                 <div className="form-new__block">
-                  <label for="formTitle" className="subttl" 
+                  <label htmlFor="formTitle" className="subttl" 
                   style={{color: !theme ? "white" : ""}}>
                     Название задачи
                   </label>
@@ -52,12 +116,13 @@ function PopNewCard() {
                     type="text"
                     name="name"
                     id="formTitle"
+                    value={taskData.title}
+                    onChange={setTitle}
                     placeholder="Введите название задачи..."
-                    autoFocus
                   />
                 </div>
                 <div className="form-new__block">
-                  <label for="textArea" className="subttl"
+                  <label htmlFor="textArea" className="subttl"
                    style={{color: !theme ? "white" : ""}}>
                     Описание задачи
                   </label>
@@ -65,6 +130,8 @@ function PopNewCard() {
                     className="form-new__area"
                     name="text"
                     id="textArea"
+                    value={taskData.description}
+                    onChange={setDescription}
                     placeholder="Введите описание задачи..."
                   ></textarea>
                 </div>
@@ -104,7 +171,7 @@ function PopNewCard() {
                       </div>
                     </div>
                   </div>
-                <Calendar currentDateMonth={currentDate} />
+                <Calendar currentDateMonth={currentDate}/>
                 </div>
               </div>
             </div>
@@ -112,18 +179,27 @@ function PopNewCard() {
               <p className="categories__p subttl"  
               style={{color: !theme ? "white" : ""}}>Категория</p>
               <div className="categories__themes">
-                <div className="categories__theme _orange _active-category">
+                <div onClick={() => setTopic("Web Design")} 
+                className={taskData.topic === "Web Design" ? 
+                "categories__theme _orange cursor _active-category" : "categories__theme _orange cursor"}>
                   <p className="_orange">Web Design</p>
                 </div>
-                <div className="categories__theme _green">
+                <div onClick={() => setTopic("Research")} 
+                className={taskData.topic === "Research" ? 
+                "categories__theme _green cursor _active-category" : "categories__theme _green cursor"}>
                   <p className="_green">Research</p>
                 </div>
-                <div className="categories__theme _purple">
+                <div onClick={() => setTopic("Copywriting")} 
+                className={taskData.topic === "Copywriting" ? 
+                "categories__theme _purple cursor _active-category" : "categories__theme _purple cursor"}>
                   <p className="_purple">Copywriting</p>
                 </div>
               </div>
             </div>
-            <button className="form-new__create _hover01" id="btnCreate">
+            <button onClick={(e) => {
+              e.stopPropagation(); // Останавливаем всплытие события клика
+              addTask(taskData);}} 
+              className="form-new__create _hover01" id="btnCreate">
               Создать задачу
             </button>
           </div>

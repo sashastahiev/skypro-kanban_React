@@ -15,7 +15,6 @@ const Swrapper = styled.div`
 `
 function MainPage() {
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     setTimeout(() => {
         setLoading(false);

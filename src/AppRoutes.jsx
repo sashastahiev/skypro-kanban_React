@@ -10,7 +10,7 @@ import CardId from "./pages/card/{id)"
 import { useState } from "react";
 import PrivateRoute from "./pages/PrivateRoute";
 function AppRoutes() {
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(true);
     return (
         <Routes>
             <Route element={<PrivateRoute IsAuth={isAuth}/>}>

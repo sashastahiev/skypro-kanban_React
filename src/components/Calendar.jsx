@@ -1,9 +1,9 @@
 import { useState, useEffect, useContext } from 'react';
 import ThemeContext from './ThemeContext';
-const Calendar = ({currentDateMonth}) => {
+const Calendar = (props) => {
   const {theme} = useContext(ThemeContext)
-  const [selectedDate, setSelectedDate] = useState(null);
-  const currentDate = currentDateMonth;
+  const [selectedDate, setSelectedDate] = useState(new Date(props.currentDateMonth));
+  const currentDate = props.currentDateMonth;
   const [calendarDays, setCalendarDays] = useState([]);
   const weekDays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
   // Генерация календаря
@@ -17,7 +17,6 @@ const Calendar = ({currentDateMonth}) => {
     const adjustedStartDay = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
 
     const days = [];
-
     const prevMonthLastDays = new Date(year, month, 0).getDate();
     for (let i = adjustedStartDay - 1; i >= 0; i--) {
       days.push({
@@ -55,20 +54,22 @@ const Calendar = ({currentDateMonth}) => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCalendarDays(days);
   }, [currentDate]);
-
+  
   const handleDayClick = (dayData) => {
     if (!dayData.isCurrentMonth) return;
 
     setSelectedDate(dayData.date);
   };
+
   // Форматирование даты для отображения
   const formatDateForDisplay = (date) => {
-    if (!date) return 'Не выбрана';
-
+    if (!date) {
+      return "Не выбрано";
+    }
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = String(date.getFullYear()).slice(-2);
-
+    // addTask(`${day}.${month}.${year}`);
     return `${day}.${month}.${year}`;
   };
   // Форматирование полной даты для скрытого поля

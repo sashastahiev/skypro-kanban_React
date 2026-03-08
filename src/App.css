@@ -544,6 +544,10 @@ body {
   margin-right: 7px;
   opacity: 0.4;
 }
+.categories__theme:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
 .categories__theme p {
   font-size: 14px;
   font-weight: 600;
@@ -592,7 +596,7 @@ body {
   opacity: 1;
 }
 .pop-browse__content .theme-down {
-  display: none;
+  display: block;
   margin-bottom: 20px;
 }
 .pop-browse__content .theme-top {

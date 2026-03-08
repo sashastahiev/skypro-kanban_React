@@ -127,13 +127,11 @@ const Card = ({ card, columnId }) => {
             <div className={"card__theme " + colorTopic}>
               <p className={colorTopic}>{card.topic}</p>
             </div>
-            <Link to={"/card/" + card._id}>
-              <Scard__btn>
-                <Scircle></Scircle>
-                <Scircle></Scircle>
-                <Scircle></Scircle>
-              </Scard__btn>
-            </Link>
+            <Scard__btn>
+              <Scircle></Scircle>
+              <Scircle></Scircle>
+              <Scircle></Scircle>
+            </Scard__btn>
           </Scards__group>
           <Scard__content>
             <a href="#" target="_blank">
