@@ -1,25 +1,36 @@
-function PopUser() {
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import ThemeContext from "./ThemeContext";
+import { useContext } from "react";
+function PopUser({setIsAuth}) {
+  const {theme} = useContext(ThemeContext)
+   const navigate = useNavigate();
+   function handleLogout(e) {
+      e.preventDefault();
+      setIsAuth(false)
+      navigate("/login");
+   }
   return (
-   <div class="pop-exit" id="popExit">
-        <div class="pop-exit__container">
-          <div class="pop-exit__block">
-            <div class="pop-exit__ttl">
-              <h2>Выйти из аккаунта?</h2>
-            </div>
-            <form class="pop-exit__form" id="formExit" action="#">
-              <div class="pop-exit__form-group">
-                <button class="pop-exit__exit-yes _hover01" id="exitYes">
-                  <a href="modal/signin.html">Да, выйти</a>{" "}
-                </button>
-                <button class="pop-exit__exit-no _hover03" id="exitNo">
-                  <a href="main.html">Нет, остаться</a>{" "}
-                </button>
-              </div>
-            </form>
+    <div className="pop-exit">
+      <div className="pop-exit__container">
+        <div className="pop-exit__block" style={{background: !theme ? "#20202C" : ""}}>
+          <div className="pop-exit__ttl">
+            <h2 style={{color: !theme ? "white" : ""}}>Выйти из аккаунта?</h2>
           </div>
+          <form className="pop-exit__form" id="formExit" action="#">
+            <div className="pop-exit__form-group">
+              <button className="pop-exit__exit-yes _hover01" id="exitYes">
+                <Link onClick={handleLogout} to="/register">Да, выйти</Link>{" "}
+              </button>
+              <button className="pop-exit__exit-no _hover03" id="exitNo"  style={{border: !theme ? "1px solid white" : ""}}>
+                <Link style={{color: !theme ? "white" : ""}} to="/">Нет, остаться</Link>{" "}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
+    </div>
   );
 }
 
-export default PopUser
+export default PopUser;
