@@ -7,7 +7,6 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Content from '../components/Content'
 import styled from "styled-components";
-import ThemeContext from "../components/ThemeContext";
 const Swrapper = styled.div`
   width: 100vw;
   min-height: 100vh;

@@ -130,7 +130,7 @@ const StyledLink = styled.div`
 
  const AuthForm = ({ IsSign, setIsAuth}) => {
   const navigate = useNavigate();
-  const {login} = useContext(AuthContext)
+  const {login} = useContext(AuthContext)//Подключение к Context
   const notify = () => toast("Вы успешно зарегистрированы!");
   // состояние полей
   const [formData, setFormData] = useState({
@@ -190,7 +190,7 @@ const StyledLink = styled.div`
     }
     try {
       const success = IsSign
-        ? await login(formData.login, formData.password)
+        ? await login(formData.login, formData.password)//проверка авторизации через AuthContext
         : await signUp(formData);
       if (!success) {
         setError('Неверный email или пароль');
