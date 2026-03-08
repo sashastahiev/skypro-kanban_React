@@ -2,21 +2,17 @@ import { createContext, useState } from 'react';
 import { signIn } from '../services/auth';
 const AuthContext = createContext();
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(true);
 
   // Функция входа
-  const login = (email, password) => {
-    // Здесь должна быть проверка email и password через API
-    // Для примера просто создаём объект пользователя
-    const data = signIn(email, password)
-    console.log("AuthContext: " + data)
+  const login = (login, password) => {
+    const data = signIn({login: login, password: password})
     if (data) {
-      setUser({ name: data.name, id: data.id, email: data.email });
+      setUser({ name: data.name, id: data.id, email : data.email });
       return true; // Вход успешен
     }
-    return false; // Неверные данные
-  };
-
+    else { return false; } // Неверные данные
+  }
   // Функция выхода
   const logout = () => {
     setUser(null); // Удаляем данные пользователя

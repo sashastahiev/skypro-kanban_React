@@ -1,5 +1,8 @@
+import { useContext, useState } from "react";
 import Column from "./Column";
 import styled from "styled-components";
+import ThemeContext from "./ThemeContext";
+import { cardList } from "../js/data";
 const Smain = styled.main`
   width: 100%;
   background-color: #eaeef6;
@@ -32,16 +35,73 @@ const SmainContent = styled.main`
   }
 `;
 function Main() {
+  const {theme} = useContext(ThemeContext)
+  const ListColumns = () => {
+    const cardsByStatus = {
+      "Без статуса": 
+      {
+        id: "Без статуса",
+        cards: cardList.filter(x => x.status == "Без статуса")
+      },
+      "Нужно сделать": 
+      {
+        id:"Нужно сделать",
+        cards: cardList.filter(x => x.status == "Нужно сделать")
+      },
+      "В работе": 
+      {
+        id:"В работе",
+        cards: cardList.filter(x => x.status == "В работе")
+      },
+      "Тестирование": 
+      {
+        id:"Тестирование",
+        cards: cardList.filter(x => x.status == "Тестирование")
+      },
+      "Готово": 
+      {
+        id:"Готово",
+        cards: cardList.filter(x => x.status == "Готово")
+      }
+    }
+    return cardsByStatus;
+  };
+  const [columns, setColumns] = useState(ListColumns());
+  
+    // Функция для перемещения карточек между колонками
+    const moveCard = (cardId, fromColumnId, toColumnId) => {
+      setColumns((prevColumns) => {
+        const updatedColumns = { ...prevColumns };
+        // Находим карточку в исходной колонке
+        const cardToMove = updatedColumns[fromColumnId].cards.find(
+          (card) => card._id === cardId
+        );
+  
+        // Удаляем карточку из исходной колонки
+        updatedColumns[fromColumnId].cards = updatedColumns[fromColumnId].cards.filter(
+          (card) => card._id !== cardId
+        );
+  
+        // Добавляем карточку в целевую колонку
+        updatedColumns[toColumnId].cards = [
+          ...updatedColumns[toColumnId].cards,
+          cardToMove,
+        ];
+        return updatedColumns;
+      });
+    };
   return (
-    <Smain>
+    <Smain style={{background: !theme ? "#151419" : ''}}>
       <Scontainer>
         <SmainBlock>
           <SmainContent>
-            <Column text="Без статуса" />
-            <Column text="Нужно сделать" />
-            <Column text="В работе" />
-            <Column text="Тестирование" />
-            <Column text="Готово" />
+            {Object.values(columns).map((column) => (
+              <Column
+                key={column.id}
+                column={column}
+                moveCard={moveCard}
+              />
+            ))}
           </SmainContent>
         </SmainBlock>
       </Scontainer>

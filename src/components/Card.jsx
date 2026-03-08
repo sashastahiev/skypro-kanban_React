@@ -1,6 +1,8 @@
 import styled from "styled-components";
-import ContentLoader from "react-content-loader";
 import { Link } from "react-router-dom";
+import { useDrag } from 'react-dnd';
+import ThemeContext from './ThemeContext';
+import { useContext } from "react";
 const Scards__item = styled.div`
   padding: 5px;
   animation-name: card-animation;
@@ -86,20 +88,46 @@ const Scircle = styled.div`
   border-radius: 50%;
   background-color: #94a6be;
 `;
-function Card({ item }) {
+const Card = ({ card, columnId }) => {
+  const {theme} = useContext(ThemeContext)
+  const [{ isDragging }, drag] = useDrag({
+    type: 'CARD',
+    item: { id: card._id, fromColumnId: columnId },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  
+  const formatDate = (isoString) => {
+    const date = new Date(isoString);
+
+    // Форматируем дату (день, месяц, год)
+    const dateOptions = {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    };
+    const formattedDate = new Intl.DateTimeFormat('ru-RU', dateOptions)
+      .format(date)
+      .replace(/\./g, '.'); // Гарантируем точку как разделитель
+      
+    return `${formattedDate}`;
+  };
   let colorTopic = "";
-  if (item.topic == "Research") colorTopic = "_green";
-  else if (item.topic == "Web Design") colorTopic = "_orange";
-  else if (item.topic == "Copywriting") colorTopic = "_purple";
+  if (card.topic == "Research") colorTopic = "_green";
+  else if (card.topic == "Web Design") colorTopic = "_orange";
+  else if (card.topic == "Copywriting") colorTopic = "_purple";
   return (
     <>
-      <Scards__item>
-        <Scards__card>
+    <Link to={"/card/" + card._id}>
+      <Scards__item  ref={drag} style={{opacity: isDragging ? 0.5 : 1}}>
+        <Scards__card style={{background: !theme ? "#20202C" : ""}}>
           <Scards__group>
             <div className={"card__theme " + colorTopic}>
-              <p className={colorTopic}>{item.topic}</p>
+              <p className={colorTopic}>{card.topic}</p>
             </div>
-            <Link to={"/card/" + item._id}>
+            <Link to={"/card/" + card._id}>
               <Scard__btn>
                 <Scircle></Scircle>
                 <Scircle></Scircle>
@@ -109,7 +137,7 @@ function Card({ item }) {
           </Scards__group>
           <Scard__content>
             <a href="#" target="_blank">
-              <Scard__title>{item.title}</Scard__title>
+              <Scard__title style={{color: !theme ? "#FFFFFF" : ""}}>{card.title}</Scard__title>
             </a>
             <Scard__date>
               <svg
@@ -140,11 +168,12 @@ function Card({ item }) {
                   </clipPath>
                 </defs>
               </svg>
-              <p>{item.date}</p>
+              <p>{formatDate(card.date)}</p>
             </Scard__date>
           </Scard__content>
         </Scards__card>
       </Scards__item>
+    </Link>
     </>
   );
 }

@@ -3,6 +3,7 @@ import styled from "styled-components"
 const Sloader = styled.div`
   text-align: center;
   margin-top: 40vh;
+  background-color: #f1f1f1;
 `
 const Sspinner = styled.div`
   border: 4px solid rgba(0, 0, 0, 0.1);

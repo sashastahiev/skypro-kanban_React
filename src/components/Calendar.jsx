@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-
+import { useState, useEffect, useContext } from 'react';
+import ThemeContext from './ThemeContext';
 const Calendar = ({currentDateMonth}) => {
+  const {theme} = useContext(ThemeContext)
   const [selectedDate, setSelectedDate] = useState(null);
   const currentDate = currentDateMonth;
   const [calendarDays, setCalendarDays] = useState([]);
@@ -60,7 +61,6 @@ const Calendar = ({currentDateMonth}) => {
 
     setSelectedDate(dayData.date);
   };
-
   // Форматирование даты для отображения
   const formatDateForDisplay = (date) => {
     if (!date) return 'Не выбрана';
@@ -71,7 +71,6 @@ const Calendar = ({currentDateMonth}) => {
 
     return `${day}.${month}.${year}`;
   };
-
   // Форматирование полной даты для скрытого поля
   const formatFullDate = (date) => {
     if (!date) return '';
@@ -134,7 +133,7 @@ const Calendar = ({currentDateMonth}) => {
       <div className="calendar__period">
         <p className="calendar__p date-end">
           Срок исполнения:{" "}
-          <span className="date-control">
+          <span className="date-control" style={{color: !theme ?  "white" : ""}}>
             {formatDateForDisplay(selectedDate)}
           </span>
         </p>

@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../services/auth";
 import { useState } from "react";
 import {useContext} from "react"
 import BaseInput from "./BaseInput";
-import { AuthProvider } from '../components/AuthContext';
+import AuthContext from '../components/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
+import { signUp } from "../services/auth";
+
 const StyledTop = styled.section`
   display: flex;
   justify-content: center;
@@ -129,7 +130,7 @@ const StyledLink = styled.div`
 
  const AuthForm = ({ IsSign, setIsAuth}) => {
   const navigate = useNavigate();
-  const context = useContext(AuthProvider)
+  const {login} = useContext(AuthContext)
   const notify = () => toast("Вы успешно зарегистрированы!");
   // состояние полей
   const [formData, setFormData] = useState({
@@ -188,12 +189,8 @@ const StyledLink = styled.div`
       return;
     }
     try {
-      if (!context || !context.login) {
-        setError("Система авторизации недоступна");
-        return;
-      }
       const success = IsSign
-        ? await context.login(formData.email, formData.password)
+        ? await login(formData.login, formData.password)
         : await signUp(formData);
       if (!success) {
         setError('Неверный email или пароль');
@@ -207,7 +204,7 @@ const StyledLink = styled.div`
         notify()
         setTimeout(() => {
           navigate("/login");
-        }, 2000);
+        }, 3000);
       }
     } catch (err) {
       setError(err.message);

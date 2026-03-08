@@ -1,13 +1,19 @@
 import "../App.css";
 import Header from "../components/Header";
-import Content from "../components/Content";
-import PopBrowse from "../components/PopBrowse";
-import PopNewCard from "../components/PopNewCard";
-import PopUser from "../components/PopUser";
 import Loader from "../components/Loader";
 import { useState, useEffect } from 'react';
 import { Outlet } from "react-router-dom";
-//Создание проекта и разделение App.jsx на компоненты
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import Content from '../components/Content'
+import styled from "styled-components";
+import ThemeContext from "../components/ThemeContext";
+const Swrapper = styled.div`
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background-color: #f1f1f1;;
+`
 function MainPage() {
   const [loading, setLoading] = useState(true);
 
@@ -18,12 +24,14 @@ function MainPage() {
   }, [loading]);
 
   return (
-    <div className="wrapper">
+    <Swrapper>
       <Header />
-      {loading ? <Loader /> : <Content />}
+        <DndProvider backend={HTML5Backend}>
+          {loading ? <Loader /> : <Content />}
+        </DndProvider>
       <Outlet />
-    </div>
-  );
-}
+    </Swrapper>
+  )
+};
 
 export default MainPage;

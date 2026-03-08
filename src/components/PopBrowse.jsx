@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import ThemeContext from "./ThemeContext";
 import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
 function PopBrowse({item}) {
@@ -20,28 +21,56 @@ function PopBrowse({item}) {
   const goToNextMonth = () => {
     setCurrentDate(next => new Date(next.getFullYear(), next.getMonth() + 1, 1));
   };
+  const toggleEdit = () => {
+    setEdit(!edit)
+  }
+  const {theme} = useContext(ThemeContext)
+  const [edit, setEdit] = useState(false)
   let colorTopic = "";
   if (item.topic == "Research") colorTopic = "_green";
   else if (item.topic == "Web Design") colorTopic = "_orange";
   else if (item.topic == "Copywritting") colorTopic = "_purple";
   return (
     <>
-      <div className="pop-browse" id="popBrowse">
+      <div className="pop-browse">
         <div className="pop-browse__container">
-          <div className="pop-browse__block">
+          <div className="pop-browse__block"
+          style={{
+          background: !theme ? "#20202C" : "",
+          border: !theme ? "1px solid #20202C" : "",
+          boxShadow: !theme ? '0 4px 6px rgba(255, 255, 255, 0.5)' : ''
+        }}>
             <div className="pop-browse__content">
               <div className="pop-browse__top-block">
-                <h3 className="pop-browse__ttl">{item.title}</h3>
+                <h3 className="pop-browse__ttl"
+                style={{color: !theme ? "white" : ""}}>{item.title}</h3>
                 <div className={"categories__theme theme-top " + colorTopic + " _active-category"}>
                   <p className={colorTopic}>{item.topic}</p>
                 </div>
               </div>
               <div className="pop-browse__status status">
-                <p className="status__p subttl">Статус</p>
+                <p style={{color: !theme ? "white" : ""}} className="status__p subttl">Статус</p>
                 <div className="status__themes">
-                  <div className="status__theme _gray">
+                  {!edit ? <div className="status__theme _gray">
                     <p className="_gray">{item.status}</p>
-                  </div>
+                  </div> : 
+                  <>
+                    <div className="status__theme">
+                      <p>В работе</p> 
+                    </div>
+                    <div className="status__theme">
+                      <p>Нужно сделать</p> 
+                    </div>
+                    <div className="status__theme">
+                      <p>В работе</p>
+                    </div>
+                    <div className="status__theme">
+                      <p>Тестирование</p>
+                    </div>
+                    <div className="status__theme">
+                      <p>Готово</p>
+                    </div>
+                  </>}
                 </div>
               </div>
               <div className="pop-browse__wrap">
@@ -51,7 +80,7 @@ function PopBrowse({item}) {
                   action="#"
                 >
                   <div className="form-browse__block">
-                    <label for="textArea01" className="subttl">
+                    <label style={{color: !theme ? "white" : ""}} for="textArea01" className="subttl">
                       Описание задачи
                     </label>
                     <textarea
@@ -64,7 +93,7 @@ function PopBrowse({item}) {
                   </div>
                 </form>
                 <div className="pop-new-card__calendar calendar">
-                  <p className="calendar__ttl subttl">Даты</p>
+                  <p style={{color: !theme ? "white" : ""}} className="calendar__ttl subttl">Даты</p>
                   <div className="calendar__block">
                     <div className="calendar__nav">
                       <div className="calendar__month">{getMonthYearTitle()}</div>
@@ -104,37 +133,47 @@ function PopBrowse({item}) {
                 </div>
               </div>
               <div className="theme-down__categories theme-down">
-                <p className="categories__p subttl">Категория</p>
+                <p style={{color: !theme ? "white" : ""}} className="categories__p subttl">Категория</p>
                 <div className="categories__theme _orange _active-category">
                   <p className="_orange">Web Design</p>
                 </div>
               </div>
-              <div className="pop-browse__btn-browse ">
+              <div className={!edit ? "pop-browse__btn-browse" : "_hide"}>
                 <div className="btn-group">
-                  <button className="btn-browse__edit _btn-bor _hover03">
-                    <a href="#">Редактировать задачу</a>
+                  <button 
+                    style={{border: !theme ? "1px solid white" : ""}}
+                    onClick={toggleEdit} 
+                    className={theme ? "btn-browse__edit _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}>
+                    <a style={{color: !theme ? "white" : ""}} href="#">Редактировать задачу</a>
                   </button>
-                  <button className="btn-browse__delete _btn-bor _hover03">
-                    <a href="#">Удалить задачу</a>
+                  <button
+                    style={{border: !theme ? "1px solid white" : ""}}
+                    className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}>
+                    <a style={{color: !theme ? "white" : ""}} href="#">Удалить задачу</a>
                   </button>
                 </div>
                 <button className="btn-browse__close _btn-bg _hover01">
                   <Link to="/">Закрыть</Link>
                 </button>
               </div>
-              <div className="pop-browse__btn-edit _hide">
+              <div className={edit ? "pop-browse__btn-edit" : "_hide"}>
                 <div className="btn-group">
-                  <button className="btn-edit__edit _btn-bg _hover01">
+                  <button 
+                    onClick={toggleEdit} 
+                    className="btn-edit__edit _btn-bg _hover01">
                     <a href="#">Сохранить</a>
                   </button>
-                  <button className="btn-edit__edit _btn-bor _hover03">
-                    <a href="#">Отменить</a>
+                  <button
+                    style={{border: !theme ? "1px solid white" : ""}}
+                    className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}>
+                    <a style={{color: !theme ? "white" : ""}} href="#">Отменить</a>
                   </button>
                   <button
-                    className="btn-edit__delete _btn-bor _hover03"
+                    style={{border: !theme ? "1px solid white" : ""}}
+                    className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}
                     id="btnDelete"
                   >
-                    <a href="#">Удалить задачу</a>
+                    <a style={{color: !theme ? "white" : ""}} href="#">Удалить задачу</a>
                   </button>
                 </div>
                 <button className="btn-edit__close _btn-bg _hover01">

@@ -8,9 +8,10 @@ export function TasksProvider({ children }) {
   // Функция добавления новой задачи
   const addTask = (title) => {
     const newTask =  {
-    id: 1,
+    _id: Math.random(),
     theme: "Web Design",
     title: {title},
+    description: {title},
     date: new Date(),
     status: "Без статуса",
   };
@@ -21,14 +22,14 @@ export function TasksProvider({ children }) {
   const toggleTask = (id) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
+        task._id === id ? { ...task, completed: !task.completed } : task
       )
     );
   };
 
   // Функция удаления задачи
   const deleteTask = (id) => {
-    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
+    setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
   };
 
   return (

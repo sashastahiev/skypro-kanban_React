@@ -1,7 +1,11 @@
 import Card from "./Card"
-import { cardList } from "../js/data"
 import styled from "styled-components";
-const SColumnTitle = styled.div`
+import { useDrop } from 'react-dnd';
+import ThemeContext from './ThemeContext';
+import { useContext } from "react";
+const SColumnTitle = styled.div` 
+  display: flex;
+  justify-content: space-between;
   padding: 0 10px;
   margin: 15px 0;
   color: #94A6BE;
@@ -30,15 +34,31 @@ const SCards = styled.div`
     overflow-y: auto;
   }
 `
-function Column({text}) {
-const cardsByStatus = cardList.filter(x => x.status == text);
+const Column = ({ column, moveCard }) => {
+  const {theme} = useContext(ThemeContext)
+  const [{ isOver }, drop] = useDrop({
+    accept: 'CARD',
+    drop: (item) => moveCard(item.id, item.fromColumnId, column.id),
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+    }),
+  });
+const backgroundColor = isOver ? '#f9f9f9' : '#eaeef6';
+const backgroundColorDark = isOver ? '#2b2932' : '#151419';
   return (
-    <SMainColumn>
+    <SMainColumn  ref={drop} style={{ background: !theme ? backgroundColorDark : backgroundColor}}>
       <SColumnTitle>
-        {text}
+        <div>{column.id}</div>
+        <div>{column.cards.length}</div>
       </SColumnTitle>
       <SCards>
-        {cardsByStatus.map(item => (<Card key={item.id} item={item} />))}
+           {column.cards.map((card) => (
+          <Card
+            key={card._id}
+            card={card}
+            columnId={column.id}
+          />
+        ))}
       </SCards>
     </SMainColumn>
   );
