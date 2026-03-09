@@ -544,6 +544,7 @@ body {
   margin-right: 7px;
   opacity: 0.4;
 }
+
 .categories__theme:hover {
   opacity: 1;
   transform: scale(1.1);
@@ -592,9 +593,7 @@ body {
   display: block;
   text-align: left;
 }
-.pop-browse__content .categories__theme {
-  opacity: 1;
-}
+
 .pop-browse__content .theme-down {
   display: block;
   margin-bottom: 20px;

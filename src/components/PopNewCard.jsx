@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/purity */
 import { Link } from "react-router-dom";
 import Calendar from "./Calendar";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext} from "react";
 import ThemeContext from "./ThemeContext";
 import TasksContext from "./TasksContext";
 
 function PopNewCard() {
   const [currentDate, setCurrentDate] = useState(new Date());
+  const {theme} = useContext(ThemeContext)
   const {addTask} = useContext(TasksContext)
-   const [taskData,setTaskData] = useState({
+  const [taskData,setTaskData] = useState({
     _id: Math.random().toString(36).slice(2, 10),
     topic:"",
     title:"",
@@ -15,9 +17,6 @@ function PopNewCard() {
     date:"",
     status:"",
   });
-  useEffect(() => {
-    console.log(taskData)
-  })
   const getMonthYearTitle = () => {
     const monthNames = [
       'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
@@ -33,32 +32,30 @@ function PopNewCard() {
   const goToNextMonth = () => {
     setCurrentDate(next => new Date(next.getFullYear(), next.getMonth() + 1, 1));
   };
-  const {theme} = useContext(ThemeContext)
-
   const setStatus = (data) => {
      setTaskData(prev => ({
     ...prev,
     status: data
   }));
-  }
+  };
   const setTopic = (data) => {
      setTaskData(prev => ({
     ...prev,
     topic: data
   }));
-  }
+  };
   const setTitle = (event) => {
      setTaskData(prev => ({
     ...prev,
     title: event.target.value
   }));
-  }
+  };
   const setDescription = (event) => {
      setTaskData(prev => ({
     ...prev,
     description: event.target.value
   }));
-  }
+  };
 
   return (
     <div className="pop-new-card">
@@ -181,17 +178,20 @@ function PopNewCard() {
               <div className="categories__themes">
                 <div onClick={() => setTopic("Web Design")} 
                 className={taskData.topic === "Web Design" ? 
-                "categories__theme _orange cursor _active-category" : "categories__theme _orange cursor"}>
+                "categories__theme _orange cursor _active-category" : 
+                "categories__theme _orange cursor"}>
                   <p className="_orange">Web Design</p>
                 </div>
                 <div onClick={() => setTopic("Research")} 
                 className={taskData.topic === "Research" ? 
-                "categories__theme _green cursor _active-category" : "categories__theme _green cursor"}>
+                "categories__theme _green cursor _active-category" : 
+                "categories__theme _green cursor"}>
                   <p className="_green">Research</p>
                 </div>
                 <div onClick={() => setTopic("Copywriting")} 
                 className={taskData.topic === "Copywriting" ? 
-                "categories__theme _purple cursor _active-category" : "categories__theme _purple cursor"}>
+                "categories__theme _purple cursor _active-category" : 
+                "categories__theme _purple cursor"}>
                   <p className="_purple">Copywriting</p>
                 </div>
               </div>

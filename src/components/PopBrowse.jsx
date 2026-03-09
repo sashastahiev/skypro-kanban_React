@@ -1,27 +1,23 @@
-import { useState, useContext, useEffect } from "react";
+/* eslint-disable react-hooks/purity */
+import { useState, useContext} from "react";
 import ThemeContext from "./ThemeContext";
 import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
-import { ToastContainer } from 'react-toastify';
 import TasksContext from "./TasksContext";
 
 function PopBrowse({item}) {
-  const {deleteTask} = useContext(TasksContext)
+  const {deleteTask, editTask} = useContext(TasksContext)
   const [currentDate, setCurrentDate] = useState(new Date(item ? item.date : ""));
   const {theme} = useContext(ThemeContext)
   const [edit, setEdit] = useState(false)
   const [taskData,setTaskData] = useState({
-    _id: Math.random().toString(36).slice(2, 10),
-    topic:"",
-    title:"",
-    description:"",
-    date:"",
-    status:"",
+    _id: item._id,
+    title: item.title,
+    topic: item.topic,
+    description: item.description,
+    date:item.date,
+    status: item.status,
   });
-  useEffect(() => {
-    console.log(taskData)
-  })
-
   const getMonthYearTitle = () => {
     const monthNames = [
       'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
@@ -42,25 +38,19 @@ function PopBrowse({item}) {
     ...prev,
     status: data
   }));
-  }
+  };
   const setTopic = (data) => {
      setTaskData(prev => ({
     ...prev,
     topic: data
   }));
-  }
-  const setTitle = (event) => {
-     setTaskData(prev => ({
-    ...prev,
-    title: event.target.value
-  }));
-  }
+  };
   const setDescription = (event) => {
      setTaskData(prev => ({
     ...prev,
     description: event.target.value
   }));
-  }
+  };
   const toggleEdit = () => {
     setEdit(!edit)
   }
@@ -131,9 +121,10 @@ function PopBrowse({item}) {
                         className="form-browse__area"
                         name="text"
                         id="textArea01"
-                        readOnly
+                        onChange={setDescription}
+                        readOnly={!edit}
                         placeholder="Введите описание задачи..."
-                        value={item.description}
+                        value={edit ? taskData.description : item.description}
                       />
                     </div>
                   </form>
@@ -177,27 +168,30 @@ function PopBrowse({item}) {
                     </div>
                   </div>
                 </div>
-                <div className="pop-new-card__categories categories">
+                {edit ? <div className="pop-new-card__categories categories">
                   <p className="categories__p subttl"  
                   style={{color: !theme ? "white" : ""}}>Категория</p>
                   <div className="categories__themes">
                     <div onClick={() => setTopic("Web Design")} 
                     className={taskData.topic === "Web Design" ? 
-                    "categories__theme _orange cursor _active-category" : "categories__theme _orange cursor"}>
+                    "categories__theme _orange cursor _active-category" :
+                    "categories__theme _orange cursor"}>
                       <p className="_orange">Web Design</p>
                     </div>
                     <div onClick={() => setTopic("Research")} 
                     className={taskData.topic === "Research" ? 
-                    "categories__theme _green cursor _active-category" : "categories__theme _green cursor"}>
+                    "categories__theme _green cursor _active-category" : 
+                    "categories__theme _green cursor"}>
                       <p className="_green">Research</p>
                     </div>
                     <div onClick={() => setTopic("Copywriting")} 
                     className={taskData.topic === "Copywriting" ? 
-                    "categories__theme _purple cursor _active-category" : "categories__theme _purple cursor"}>
+                    "categories__theme _purple cursor _active-category" : 
+                    "categories__theme _purple cursor"}>
                       <p className="_purple">Copywriting</p>
                     </div>
                   </div>
-                </div>
+                </div> : ""}
                 <div className={!edit ? "pop-browse__btn-browse" : "_hide"}>
                   <div className="btn-group">
                     <button 
@@ -213,7 +207,7 @@ function PopBrowse({item}) {
                       <a 
                       onClick={(e) => {
                         e.stopPropagation(); // Останавливаем всплытие события клика
-                        deleteTask(item._id);}}
+                        deleteTask(taskData);}}
                       style={{color: !theme ? "white" : ""}} 
                       href="#">Удалить задачу</a>
                     </button>
@@ -225,14 +219,16 @@ function PopBrowse({item}) {
                 <div className={edit ? "pop-browse__btn-edit" : "_hide"}>
                   <div className="btn-group">
                     <button 
-                      onClick={toggleEdit} 
+                      onClick={(e) => {
+                        e.stopPropagation(); // Останавливаем всплытие события клика
+                        editTask(taskData);}}
                       className="btn-edit__edit _btn-bg _hover01">
                       <a href="#">Сохранить</a>
                     </button>
                     <button
                       style={{border: !theme ? "1px solid white" : ""}}
                       className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}>
-                      <a style={{color: !theme ? "white" : ""}} href="#">Отменить</a>
+                      <a onClick={toggleEdit} style={{color: !theme ? "white" : ""}} href="#">Отменить</a>
                     </button>
                     <button
                       style={{border: !theme ? "1px solid white" : ""}}
@@ -256,7 +252,6 @@ function PopBrowse({item}) {
             </div>
           </div>
         </div>
-        <ToastContainer />
       </>
     );
   }

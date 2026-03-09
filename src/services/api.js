@@ -13,3 +13,39 @@ export async function fetchTasks() {
       throw new Error(error.message)
    }
 }
+export async function fetchTasksAdd(userData) {
+   try {
+      await axios.post(API_URL, userData, {
+         headers: {
+            Authorization: 'Bearer ' + "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck",
+            "Content-Type": "",
+         },
+      });
+   } catch (error) {
+      throw new Error(error.response.data.error)
+   }
+}
+export async function fetchTasksEdit(userData) {
+   try {
+      await axios.put(API_URL + userData._id, userData, {
+         headers: {
+            Authorization: 'Bearer ' + "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck",
+            "Content-Type": "",
+         },
+      });
+   } catch (error) {
+      throw new Error(error.message)
+   }
+}
+export async function fetchTasksDelete(userData) {
+   try {
+      await axios.put(API_URL + userData._id,userData,{
+         headers: {
+            Authorization: 'Bearer ' + "bgc0b8awbwas6g5g5k5o5s5w606g37w3cc3bo3b83k39s3co3c83c03ck",
+            "Content-Type": "",
+         },
+      });
+   } catch (error) {
+      throw new Error(error.message)
+   }
+}
