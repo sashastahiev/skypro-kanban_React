@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDrag } from 'react-dnd';
 import ThemeContext from './ThemeContext';
 import { useContext } from "react";
@@ -90,6 +90,7 @@ const Scircle = styled.div`
 `;
 const Card = ({ card, columnId }) => {
   const {theme} = useContext(ThemeContext)
+  const navigate = useNavigate()
   const [{ isDragging }, drag] = useDrag({
     type: 'CARD',
     item: { id: card._id, fromColumnId: columnId },
@@ -97,8 +98,6 @@ const Card = ({ card, columnId }) => {
       isDragging: monitor.isDragging(),
     }),
   });
-
-  
   const formatDate = (isoString) => {
     const date = new Date(isoString);
 
@@ -120,7 +119,7 @@ const Card = ({ card, columnId }) => {
   else if (card.topic == "Copywriting") colorTopic = "_purple";
   return (
     <>
-    <Link to={"/card/" + card._id}>
+    <div onClick={() => navigate("/card/" + card._id)}>
       <Scards__item  ref={drag} style={{opacity: isDragging ? 0.5 : 1}}>
         <Scards__card style={{background: !theme ? "#20202C" : ""}}>
           <Scards__group>
@@ -171,7 +170,7 @@ const Card = ({ card, columnId }) => {
           </Scard__content>
         </Scards__card>
       </Scards__item>
-    </Link>
+    </div>
     </>
   );
 }
