@@ -8,7 +8,6 @@ export async function fetchTasks() {
          },
       })
       return data.data.tasks
-      // когда работаем с axios, не забываем, что результат лежит в ключе datа
    } catch (error) {
       throw new Error(error.message)
    }

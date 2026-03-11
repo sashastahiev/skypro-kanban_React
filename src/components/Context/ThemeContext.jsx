@@ -5,7 +5,6 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState('light');
 
-  // Функция переключения темы
   const toggleTheme = () => {
     setTheme(!theme);
   };

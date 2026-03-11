@@ -1,7 +1,5 @@
-import React from 'react';
 import styled from 'styled-components';
 
-// Стилизированные компоненты
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -11,9 +9,7 @@ const Container = styled.div`
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   text-align: center;
   color: white;
-  font-family: 'Arial', sans-serif;
 `;
-
 const ErrorCode = styled.h1`
   font-size: 8rem;
   margin: 0;
@@ -23,7 +19,6 @@ const ErrorCode = styled.h1`
     font-size: 5rem;
   }
 `;
-
 const ErrorMessage = styled.p`
   font-size: 1.5rem;
   margin-bottom: 2rem;
@@ -31,7 +26,6 @@ const ErrorMessage = styled.p`
     font-size: 1.2rem;
   }
 `;
-
 const HomeLink = styled.a`
   display: inline-block;
   padding: 12px 24px;
@@ -48,7 +42,6 @@ const HomeLink = styled.a`
   }
 `;
 
-// Основной компонент
 const PageNotFound = () => {
   return (
     <Container>

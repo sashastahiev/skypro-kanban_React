@@ -1,60 +1,92 @@
-/* eslint-disable react-hooks/purity */
-import { useState, useContext} from "react";
-import ThemeContext from "./ThemeContext";
+/* eslint-disable react-hooks/rules-of-hooks */
+import { useState, useContext } from "react";
+import ThemeContext from "./Context/ThemeContext";
 import Calendar from "./Calendar";
 import { Link } from "react-router-dom";
-import TasksContext from "./TasksContext";
+import TasksContext from "./Context/TasksContext";
 
-function PopBrowse({item}) {
-  const {deleteTask, editTask} = useContext(TasksContext)
-  const [currentDate, setCurrentDate] = useState(new Date(item ? item.date : ""));
-  const {theme} = useContext(ThemeContext)
-  const [edit, setEdit] = useState(false)
-  const [taskData,setTaskData] = useState({
-    _id: item._id,
-    title: item.title,
-    topic: item.topic,
-    description: item.description,
-    date:item.date,
-    status: item.status,
-  });
-  const getMonthYearTitle = () => {
-    const monthNames = [
-      'Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь',
-      'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'
-    ];
-    const month = monthNames[currentDate.getMonth()];
-    const year = currentDate.getFullYear();
-    return `${month} ${year}`;
-  };
-  const goToPreviousMonth = () => {
-    setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
-  };
-  const goToNextMonth = () => {
-    setCurrentDate(next => new Date(next.getFullYear(), next.getMonth() + 1, 1));
-  };
-   const setStatus = (data) => {
-     setTaskData(prev => ({
-    ...prev,
-    status: data
-  }));
-  };
-  const setTopic = (data) => {
-     setTaskData(prev => ({
-    ...prev,
-    topic: data
-  }));
-  };
-  const setDescription = (event) => {
-     setTaskData(prev => ({
-    ...prev,
-    description: event.target.value
-  }));
-  };
-  const toggleEdit = () => {
-    setEdit(!edit)
-  }
+function PopBrowse({ item }) {
   if (item) {
+    const { deleteTask, editTask } = useContext(TasksContext);
+    const [currentDate, setCurrentDate] = useState(new Date(item.date));
+    const { theme } = useContext(ThemeContext);
+    const [edit, setEdit] = useState(false);
+    const statuses = [
+      "Без статуса",
+      "Нужно сделать",
+      "В работе",
+      "Тестирование",
+      "Готово"
+    ];
+    const [taskData, setTaskData] = useState({
+      _id: item._id,
+      title: item.title,
+      topic: item.topic,
+      description: item.description,
+      date: item.date,
+      status: item.status,
+    });
+    const getMonthYearTitle = () => {
+      const monthNames = [
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апрель",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь",
+      ];
+      const month = monthNames[currentDate.getMonth()];
+      const year = currentDate.getFullYear();
+      return `${month} ${year}`;
+    };
+    const goToPreviousMonth = () => {
+      if (edit)
+      setCurrentDate(
+        (prev) => new Date(prev.getFullYear(), prev.getMonth() - 1, 1),
+      );
+    };
+    const goToNextMonth = () => {
+      if (edit)
+      setCurrentDate(
+        (next) => new Date(next.getFullYear(), next.getMonth() + 1, 1),
+      );
+    };
+    const setStatus = (data) => {
+      setTaskData((prev) => ({
+        ...prev,
+        status: data,
+      }));
+    };
+    const setTopic = (data) => {
+      setTaskData((prev) => ({
+        ...prev,
+        topic: data,
+      }));
+    };
+    const setDate = (data) => {
+      setTaskData((prev) => ({
+        ...prev,
+        date: data,
+      }));
+    };
+    const setDescription = (event) => {
+      setTaskData((prev) => ({
+        ...prev,
+        description: event.target.value,
+      }));
+    };
+    const toggleEdit = () => {
+      setEdit(!edit);
+      setCurrentDate(
+        (next) => new Date(next.getFullYear(), next.getMonth(), 1),
+      );
+    };
     let colorTopic = "";
     if (item.topic == "Research") colorTopic = "_green";
     else if (item.topic == "Web Design") colorTopic = "_orange";
@@ -63,48 +95,58 @@ function PopBrowse({item}) {
       <>
         <div className="pop-browse">
           <div className="pop-browse__container">
-            <div className="pop-browse__block"
-            style={{
-            background: !theme ? "#20202C" : "",
-            border: !theme ? "1px solid #20202C" : "",
-            boxShadow: !theme ? '0 4px 6px rgba(255, 255, 255, 0.5)' : ''
-          }}>
+            <div
+              className="pop-browse__block"
+              style={{
+                background: !theme ? "#20202C" : "",
+                border: !theme ? "1px solid #20202C" : "",
+                boxShadow: !theme ? "0 4px 6px rgba(255, 255, 255, 0.5)" : "",
+              }}
+            >
               <div className="pop-browse__content">
                 <div className="pop-browse__top-block">
-                  <h3 className="pop-browse__ttl"
-                  style={{color: !theme ? "white" : ""}}>{item.title}</h3>
-                  <div className={"categories__theme theme-top " + colorTopic +  " _active-category"}>
+                  <h3
+                    className="pop-browse__ttl"
+                    style={{ color: !theme ? "white" : "" }}
+                  >
+                    {item.title}
+                  </h3>
+                  <div
+                    className={"categories__theme theme-top " + colorTopic + " _active-category"}>
                     <p className={colorTopic}>{item.topic}</p>
                   </div>
                 </div>
                 <div className="pop-browse__status status">
-                  <p style={{color: !theme ? "white" : ""}} className="status__p subttl">Статус</p>
+                  <p
+                    style={{ color: !theme ? "white" : "" }}
+                    className="status__p subttl"
+                  >
+                    Статус
+                  </p>
                   <div className="status__themes">
-                    {!edit ? <div className="status__theme _gray">
-                      <p className="_gray">{item.status}</p>
-                    </div> : 
-                    <>
-                      <div onClick={() => setStatus("Без статуса")} 
-                      className={taskData.status === "Без статуса" ? "status__theme _gray" : "status__theme"}>
-                        <p className={taskData.status === "Без статуса" ? "_gray" : ""}>Без статуса</p> 
+                    {!edit ? (
+                      <div className="status__theme _gray">
+                        <p className="_gray">{item.status}</p>
                       </div>
-                      <div onClick={() => setStatus("Нужно сделать")} 
-                      className={taskData.status === "Нужно сделать" ? "status__theme _gray" : "status__theme"}>
-                        <p className={taskData.status === "Нужно сделать" ? "_gray" : ""}>Нужно сделать</p> 
-                      </div>
-                      <div onClick={() => setStatus("В работе")} 
-                      className={taskData.status === "В работе" ? "status__theme _gray" : "status__theme"}>
-                        <p className={taskData.status === "В работе" ? "_gray" : ""}>В работе</p>
-                      </div>
-                      <div onClick={() => setStatus("Тестирование")} 
-                      className={taskData.status === "Тестирование" ? "status__theme _gray" : "status__theme"}>
-                        <p className={taskData.status === "Тестирование" ? "_gray" : ""}>Тестирование</p>
-                      </div>
-                      <div onClick={() => setStatus("Готово")} 
-                      className={taskData.status === "Готово" ? "status__theme _gray" : "status__theme"}>
-                        <p className={taskData.status === "Готово" ? "_gray" : ""}>Готово</p>
-                      </div>
-                    </>}
+                    ) : (
+                      <>
+                        {statuses.map((status) => (
+                          <div
+                            key={status}
+                            onClick={() => setStatus(status)}
+                            className={
+                              taskData.status === status
+                                ? "status__theme _gray"
+                                : "status__theme"
+                            }
+                          >
+                            <p className={taskData.status === status ? "_gray" : ""}>
+                              {status}
+                            </p>
+                          </div>
+                        ))}
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className="pop-browse__wrap">
@@ -114,7 +156,11 @@ function PopBrowse({item}) {
                     action="#"
                   >
                     <div className="form-browse__block">
-                      <label style={{color: !theme ? "white" : ""}} htmlFor="textArea01" className="subttl">
+                      <label
+                        style={{ color: !theme ? "white" : "" }}
+                        htmlFor="textArea01"
+                        className="subttl"
+                      >
                         Описание задачи
                       </label>
                       <textarea
@@ -129,10 +175,17 @@ function PopBrowse({item}) {
                     </div>
                   </form>
                   <div className="pop-new-card__calendar calendar">
-                    <p style={{color: !theme ? "white" : ""}} className="calendar__ttl subttl">Даты</p>
+                    <p
+                      style={{ color: !theme ? "white" : "" }}
+                      className="calendar__ttl subttl"
+                    >
+                      Даты
+                    </p>
                     <div className="calendar__block">
                       <div className="calendar__nav">
-                        <div className="calendar__month">{getMonthYearTitle()}</div>
+                        <div className="calendar__month">
+                          {getMonthYearTitle()}
+                        </div>
                         <div className="nav__actions">
                           <div
                             className="nav__action"
@@ -164,52 +217,87 @@ function PopBrowse({item}) {
                           </div>
                         </div>
                       </div>
-                      <Calendar currentDateMonth={currentDate} itemData={item.date} />
+                      <Calendar currentDateMonth={currentDate} edit={edit} setDate={setDate}/>
                     </div>
                   </div>
                 </div>
-                {edit ? <div className="pop-new-card__categories categories">
-                  <p className="categories__p subttl"  
-                  style={{color: !theme ? "white" : ""}}>Категория</p>
-                  <div className="categories__themes">
-                    <div onClick={() => setTopic("Web Design")} 
-                    className={taskData.topic === "Web Design" ? 
-                    "categories__theme _orange cursor _active-category" :
-                    "categories__theme _orange cursor"}>
-                      <p className="_orange">Web Design</p>
-                    </div>
-                    <div onClick={() => setTopic("Research")} 
-                    className={taskData.topic === "Research" ? 
-                    "categories__theme _green cursor _active-category" : 
-                    "categories__theme _green cursor"}>
-                      <p className="_green">Research</p>
-                    </div>
-                    <div onClick={() => setTopic("Copywriting")} 
-                    className={taskData.topic === "Copywriting" ? 
-                    "categories__theme _purple cursor _active-category" : 
-                    "categories__theme _purple cursor"}>
-                      <p className="_purple">Copywriting</p>
+                {edit ? (
+                  <div className="pop-new-card__categories categories">
+                    <p
+                      className="categories__p subttl"
+                      style={{ color: !theme ? "white" : "" }}
+                    >
+                      Категория
+                    </p>
+                    <div className="categories__themes">
+                      <div
+                        onClick={() => setTopic("Web Design")}
+                        className={
+                          taskData.topic === "Web Design"
+                            ? "categories__theme _orange cursor _active-category"
+                            : "categories__theme _orange cursor"
+                        }
+                      >
+                        <p className="_orange">Web Design</p>
+                      </div>
+                      <div
+                        onClick={() => setTopic("Research")}
+                        className={
+                          taskData.topic === "Research"
+                            ? "categories__theme _green cursor _active-category"
+                            : "categories__theme _green cursor"
+                        }
+                      >
+                        <p className="_green">Research</p>
+                      </div>
+                      <div
+                        onClick={() => setTopic("Copywriting")}
+                        className={
+                          taskData.topic === "Copywriting"
+                            ? "categories__theme _purple cursor _active-category"
+                            : "categories__theme _purple cursor"
+                        }
+                      >
+                        <p className="_purple">Copywriting</p>
+                      </div>
                     </div>
                   </div>
-                </div> : ""}
+                ) : (
+                  ""
+                )}
                 <div className={!edit ? "pop-browse__btn-browse" : "_hide"}>
                   <div className="btn-group">
-                    <button 
-                      style={{border: !theme ? "1px solid white" : ""}}
-                      onClick={toggleEdit} 
-                      className={theme ? "btn-browse__edit _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}>
-                      <a style={{color: !theme ? "white" : ""}} href="#">Редактировать задачу</a>
+                    <button
+                      style={{ border: !theme ? "1px solid white" : "" }}
+                      onClick={toggleEdit}
+                      className={
+                        theme
+                          ? "btn-browse__edit _btn-bor _hover03"
+                          : "btn-browse__edit _btn-bor blueHover"
+                      }
+                    >
+                      <a style={{ color: !theme ? "white" : "" }} href="#">
+                        Редактировать задачу
+                      </a>
                     </button>
                     <button
-                      style={{border: !theme ? "1px solid white" : ""}}
-                      className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}
+                      style={{ border: !theme ? "1px solid white" : "" }}
+                      className={
+                        theme
+                          ? "btn-browse__delete _btn-bor _hover03"
+                          : "btn-browse__edit _btn-bor blueHover"
+                      }
+                    >
+                      <a
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTask(taskData);
+                        }}
+                        style={{ color: !theme ? "white" : "" }}
+                        href="#"
                       >
-                      <a 
-                      onClick={(e) => {
-                        e.stopPropagation(); // Останавливаем всплытие события клика
-                        deleteTask(taskData);}}
-                      style={{color: !theme ? "white" : ""}} 
-                      href="#">Удалить задачу</a>
+                        Удалить задачу
+                      </a>
                     </button>
                   </div>
                   <button className="btn-browse__close _btn-bg _hover01">
@@ -218,30 +306,50 @@ function PopBrowse({item}) {
                 </div>
                 <div className={edit ? "pop-browse__btn-edit" : "_hide"}>
                   <div className="btn-group">
-                    <button 
+                    <button
                       onClick={(e) => {
-                        e.stopPropagation(); // Останавливаем всплытие события клика
-                        editTask(taskData);}}
-                      className="btn-edit__edit _btn-bg _hover01">
+                        e.stopPropagation();
+                        editTask(taskData);
+                      }}
+                      className="btn-edit__edit _btn-bg _hover01"
+                    >
                       <a href="#">Сохранить</a>
                     </button>
                     <button
-                      style={{border: !theme ? "1px solid white" : ""}}
-                      className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}>
-                      <a onClick={toggleEdit} style={{color: !theme ? "white" : ""}} href="#">Отменить</a>
+                      style={{ border: !theme ? "1px solid white" : "" }}
+                      className={
+                        theme
+                          ? "btn-browse__delete _btn-bor _hover03"
+                          : "btn-browse__edit _btn-bor blueHover"
+                      }
+                    >
+                      <a
+                        onClick={toggleEdit}
+                        style={{ color: !theme ? "white" : "" }}
+                        href="#"
+                      >
+                        Отменить
+                      </a>
                     </button>
                     <button
-                      style={{border: !theme ? "1px solid white" : ""}}
-                      className={theme ? "btn-browse__delete _btn-bor _hover03" : "btn-browse__edit _btn-bor blueHover"}
+                      style={{ border: !theme ? "1px solid white" : "" }}
+                      className={
+                        theme
+                          ? "btn-browse__delete _btn-bor _hover03"
+                          : "btn-browse__edit _btn-bor blueHover"
+                      }
                       id="btnDelete"
-                      
                     >
-                      <a 
-                      onClick={(e) => {
-                        e.stopPropagation(); // Останавливаем всплытие события клика
-                        deleteTask(item._id);}}
-                      style={{color: !theme ? "white" : ""}} 
-                      href="#">Удалить задачу</a>
+                      <a
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTask(item._id);
+                        }}
+                        style={{ color: !theme ? "white" : "" }}
+                        href="#"
+                      >
+                        Удалить задачу
+                      </a>
                     </button>
                   </div>
                   <button className="btn-edit__close _btn-bg _hover01">
@@ -258,4 +366,3 @@ function PopBrowse({item}) {
 }
 
 export default PopBrowse;
-

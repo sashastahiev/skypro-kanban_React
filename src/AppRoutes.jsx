@@ -1,5 +1,4 @@
 import { Routes, Route } from "react-router-dom";
-import "./index.css";
 import MainPage from "./pages/MainPage";
 import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
@@ -10,7 +9,7 @@ import CardId from "./pages/card/{id)"
 import { useState } from "react";
 import PrivateRoute from "./pages/PrivateRoute";
 function AppRoutes() {
-    const [isAuth, setIsAuth] = useState(true);
+    const [isAuth, setIsAuth] = useState(false);
     return (
         <Routes>
             <Route element={<PrivateRoute IsAuth={isAuth}/>}>

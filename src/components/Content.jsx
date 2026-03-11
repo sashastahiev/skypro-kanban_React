@@ -2,8 +2,8 @@
 import { useContext, useEffect, useState } from "react";
 import Column from "./Column";
 import styled from "styled-components";
-import ThemeContext from "./ThemeContext";
-import TasksContext from "./TasksContext";
+import ThemeContext from "./Context/ThemeContext";
+import TasksContext from "./Context/TasksContext";
 const Smain = styled.main`
   width: 100%;
   background-color: #eaeef6;
@@ -35,52 +35,60 @@ const SmainContent = styled.main`
     display: block;
   }
 `;
+const SNoneTasks = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 0 10px;
+  margin: 15px 0;
+  color: #94a6be;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+`;
 function Content() {
-  const {theme} = useContext(ThemeContext)
-  const {tasks} = useContext(TasksContext)
-  // Функция для группировки задач по статусам
+  const { theme } = useContext(ThemeContext);
+  const { tasks } = useContext(TasksContext);
   const groupTasksByStatus = (tasksArray) => ({
     "Без статуса": {
       id: "Без статуса",
-      cards: tasksArray.filter(x => x.status === "Без статуса")
+      cards: tasksArray.filter((x) => x.status === "Без статуса"),
     },
     "Нужно сделать": {
       id: "Нужно сделать",
-      cards: tasksArray.filter(x => x.status === "Нужно сделать")
+      cards: tasksArray.filter((x) => x.status === "Нужно сделать"),
     },
     "В работе": {
       id: "В работе",
-      cards: tasksArray.filter(x => x.status === "В работе")
+      cards: tasksArray.filter((x) => x.status === "В работе"),
     },
-    "Тестирование": {
+    Тестирование: {
       id: "Тестирование",
-      cards: tasksArray.filter(x => x.status === "Тестирование")
+      cards: tasksArray.filter((x) => x.status === "Тестирование"),
     },
-    "Готово": {
+    Готово: {
       id: "Готово",
-      cards: tasksArray.filter(x => x.status === "Готово")
-    }
+      cards: tasksArray.filter((x) => x.status === "Готово"),
+    },
   });
 
   const [columns, setColumns] = useState(groupTasksByStatus(tasks));
 
-  // Синхронизируем columns с tasks при их изменении
   useEffect(() => {
     setColumns(groupTasksByStatus(tasks));
   }, [tasks]);
-  // Функция для перемещения карточек между колонками
   const moveCard = (cardId, fromColumnId, toColumnId) => {
     setColumns((prevColumns) => {
       const updatedColumns = { ...prevColumns };
       // Находим карточку в исходной колонке
       const cardToMove = updatedColumns[fromColumnId].cards.find(
-        (card) => card._id === cardId
+        (card) => card._id === cardId,
       );
       cardToMove.status = toColumnId;
       // Удаляем карточку из исходной колонки
-      updatedColumns[fromColumnId].cards = updatedColumns[fromColumnId].cards.filter(
-        (card) => card._id !== cardId
-      );
+      updatedColumns[fromColumnId].cards = updatedColumns[
+        fromColumnId
+      ].cards.filter((card) => card._id !== cardId);
 
       // Добавляем карточку в целевую колонку
       updatedColumns[toColumnId].cards = [
@@ -91,17 +99,17 @@ function Content() {
     });
   };
   return (
-    <Smain style={{background: !theme ? "#151419" : ''}}>
+    <Smain style={{ background: !theme ? "#151419" : "" }}>
       <Scontainer>
         <SmainBlock>
           <SmainContent>
-            {Object.values(columns).map((column) => (
-              <Column
-                key={column.id}
-                column={column}
-                moveCard={moveCard}
-              />
-            ))}
+            {tasks.length !== 0 ?
+            Object.values(columns).map((column) => ( column.cards.length !== 0 ?
+              <Column key={column.id} column={column} moveCard={moveCard} />
+            : "")) :
+            <SNoneTasks>
+              <div>Новых задач нет</div>
+            </SNoneTasks>}
           </SmainContent>
         </SmainBlock>
       </Scontainer>
