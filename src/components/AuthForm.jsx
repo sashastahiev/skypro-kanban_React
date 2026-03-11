@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {useContext} from "react"
+import { useContext } from "react";
 import BaseInput from "./BaseInput";
-import AuthContext from '../components/AuthContext';
-import { ToastContainer, toast } from 'react-toastify';
+import AuthContext from "./Context/AuthContext";
+import { ToastContainer, toast } from "react-toastify";
 import { signUp } from "../services/auth";
 
 const StyledTop = styled.section`
@@ -128,33 +128,29 @@ const StyledLink = styled.div`
   margin: 0;
 `;
 
- const AuthForm = ({ IsSign, setIsAuth}) => {
+const AuthForm = ({ IsSign, setIsAuth }) => {
   const navigate = useNavigate();
-  const {login} = useContext(AuthContext)
+  const { login } = useContext(AuthContext);
   const notify = () => toast("Вы успешно зарегистрированы!");
-  // состояние полей
   const [formData, setFormData] = useState({
     name: "",
     login: "",
     password: "",
   });
 
-  // состояние ошибок
   const [errors, setErrors] = useState({
     name: "",
     login: "",
     password: "",
   });
 
-  // состояние текста ошибки, чтобы показать её пользователю
   const [error, setError] = useState("");
 
-  // функция валидации
   const validateForm = () => {
     const newErrors = { name: "", login: "", password: "" };
     let isValid = true;
 
-    if (IsSign && formData.name.trim()) {
+    if (!IsSign && !formData.name.trim()) {
       newErrors.name = true;
       setError("Заполните все поля");
       isValid = false;
@@ -173,38 +169,33 @@ const StyledLink = styled.div`
     return isValid;
   };
 
-  // функция, которая отслеживает в полях изменения
-  // и меняет состояние компонента
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({...formData,[name]: value,});
+    setFormData({ ...formData, [name]: value });
     setErrors({ ...errors, [name]: false });
     setError("");
   };
 
-  // функция отправки формы
-  const handleSubmit =  async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
     try {
       const success = IsSign
-        ? await login(formData.login, formData.password)
+        ? await login({ login: formData.login, password: formData.password })
         : await signUp(formData);
       if (!success) {
-        setError('Неверный email или пароль');
-      }
-      else if (success && IsSign) {
-        setIsAuth(true)
+        setError("Неверный email или пароль");
+      } else if (success && IsSign) {
+        setIsAuth(true);
         navigate("/");
-      }
-      else if (success && !IsSign) {
+      } else if (success && !IsSign) {
         localStorage.setItem("userInfo", JSON.stringify(success));
-        notify()
+        notify();
         setTimeout(() => {
           navigate("/login");
-        }, 3000);
+        }, 2000);
       }
     } catch (err) {
       setError(err.message);
@@ -220,30 +211,30 @@ const StyledLink = styled.div`
           <StyledTitle>Регистрация</StyledTitle>
         )}
         {!IsSign ? (
-             <BaseInput
-                tag={StyledInputName}
-                error={errors.name}
-                type="text"
-                name="name"
-                id="formname"
-                placeholder="Имя"
-                value={formData.name}
-                onChange={handleChange}
-              /> 
+          <BaseInput
+            tag={StyledInputName}
+            error={errors.name}
+            type="text"
+            name="name"
+            id="formname"
+            placeholder="Имя"
+            value={formData.name}
+            onChange={handleChange}
+          />
         ) : (
           ""
         )}
-          <BaseInput
-            tag={StyledInputMail}
-            error={errors.login}
-            type="text"
-            name="login"
-            id="formlogin"
-            placeholder="Эл. почта"
-            value={formData.login}
-            onChange={handleChange}
-            required
-          />
+        <BaseInput
+          tag={StyledInputMail}
+          error={errors.login}
+          type="text"
+          name="login"
+          id="formlogin"
+          placeholder="Эл. почта"
+          value={formData.login}
+          onChange={handleChange}
+          required
+        />
         <BaseInput
           tag={StyledInputPassword}
           error={errors.password}
@@ -252,11 +243,13 @@ const StyledLink = styled.div`
           id="formpassword"
           placeholder="Пароль"
           value={formData.password}
-          onChange={handleChange} 
+          onChange={handleChange}
           required
         />
         <p style={{ color: "red", margin: "10px 0" }}>{error}</p>
-        <StyledButton onClick={handleSubmit}>{IsSign ? "Войти" : "Зарегистрироваться"}</StyledButton> 
+        <StyledButton onClick={handleSubmit}>
+          {IsSign ? "Войти" : "Зарегистрироваться"}
+        </StyledButton>
         <StyledFooter>
           {IsSign ? (
             <>

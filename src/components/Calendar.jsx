@@ -1,12 +1,14 @@
-import { useState, useEffect, useContext } from 'react';
-import ThemeContext from './ThemeContext';
-const Calendar = ({currentDateMonth}) => {
-  const {theme} = useContext(ThemeContext)
-  const [selectedDate, setSelectedDate] = useState(null);
-  const currentDate = currentDateMonth;
+import { useState, useEffect, useContext } from "react";
+import ThemeContext from "./Context/ThemeContext";
+const Calendar = (props) => {
+  const { theme } = useContext(ThemeContext);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date(props.currentDateMonth),
+  );
+  const currentDate = props.currentDateMonth;
   const [calendarDays, setCalendarDays] = useState([]);
-  const weekDays = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
-  // Генерация календаря
+  const weekDays = ["пн", "вт", "ср", "чт", "пт", "сб", "вс"];
+
   useEffect(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
@@ -17,27 +19,26 @@ const Calendar = ({currentDateMonth}) => {
     const adjustedStartDay = startDayOfWeek === 0 ? 6 : startDayOfWeek - 1;
 
     const days = [];
-
     const prevMonthLastDays = new Date(year, month, 0).getDate();
     for (let i = adjustedStartDay - 1; i >= 0; i--) {
       days.push({
         day: prevMonthLastDays - i,
         isCurrentMonth: false,
-        date: new Date(year, month - 1, prevMonthLastDays - i)
+        date: new Date(year, month - 1, prevMonthLastDays - i),
       });
     }
 
     for (let day = 1; day <= daysInMonth; day++) {
       const date = new Date(year, month, day);
       const dayOfWeek = date.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6; 
+      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
       const isToday = date.toDateString() === new Date().toDateString();
       days.push({
         day,
         isCurrentMonth: true,
         isWeekend,
         isToday,
-        date
+        date,
       });
     }
 
@@ -47,7 +48,7 @@ const Calendar = ({currentDateMonth}) => {
         days.push({
           day: i,
           isCurrentMonth: false,
-          date: new Date(year, month + 1, i)
+          date: new Date(year, month + 1, i),
         });
       }
     }
@@ -58,25 +59,28 @@ const Calendar = ({currentDateMonth}) => {
 
   const handleDayClick = (dayData) => {
     if (!dayData.isCurrentMonth) return;
+    if (props.edit){
+      setSelectedDate(dayData.date);
+      props.setDate(dayData.date);
+    }
 
-    setSelectedDate(dayData.date);
   };
-  // Форматирование даты для отображения
+
   const formatDateForDisplay = (date) => {
-    if (!date) return 'Не выбрана';
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    if (!date) {
+      return "Не выбрано";
+    }
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = String(date.getFullYear()).slice(-2);
-
     return `${day}.${month}.${year}`;
   };
-  // Форматирование полной даты для скрытого поля
-  const formatFullDate = (date) => {
-    if (!date) return '';
 
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+  const formatFullDate = (date) => {
+    if (!date) return "";
+
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
 
     return `${day}.${month}.${year}`;
@@ -89,7 +93,7 @@ const Calendar = ({currentDateMonth}) => {
           {weekDays.map((day, index) => (
             <div
               key={index}
-              className={`calendar__day-name${index >= 5 ? ' -weekend-' : ''}`}
+              className={`calendar__day-name${index >= 5 ? " -weekend-" : ""}`}
             >
               {day}
             </div>
@@ -98,23 +102,24 @@ const Calendar = ({currentDateMonth}) => {
 
         <div className="calendar__cells">
           {calendarDays.map((dayData, index) => {
-            const isActive = selectedDate &&
+            const isActive =
+              selectedDate &&
               dayData.date.toDateString() === selectedDate.toDateString();
-            const classes = ['calendar__cell'];
+            const classes = ["calendar__cell"];
 
             if (!dayData.isCurrentMonth) {
-              classes.push('_other-month');
+              classes.push("_other-month");
             } else {
-              classes.push('_cell-day');
-              if (dayData.isWeekend) classes.push('_weekend');
-              if (dayData.isToday) classes.push('_current');
-              if (isActive) classes.push('_active-day');
+              classes.push("_cell-day");
+              if (dayData.isWeekend) classes.push("_weekend");
+              if (dayData.isToday) classes.push("_current");
+              if (isActive) classes.push("_active-day");
             }
 
             return (
               <div
                 key={index}
-                className={classes.join(' ')}
+                className={classes.join(" ")}
                 onClick={() => handleDayClick(dayData)}
               >
                 {dayData.day}
@@ -133,7 +138,10 @@ const Calendar = ({currentDateMonth}) => {
       <div className="calendar__period">
         <p className="calendar__p date-end">
           Срок исполнения:{" "}
-          <span className="date-control" style={{color: !theme ?  "white" : ""}}>
+          <span
+            className="date-control"
+            style={{ color: !theme ? "white" : "" }}
+          >
             {formatDateForDisplay(selectedDate)}
           </span>
         </p>

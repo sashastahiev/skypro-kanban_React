@@ -8,8 +8,7 @@ const BaseInput = ({
    onChange,
 
 }) => {
-   // Выбираем компонент в зависимости от тега, на случай, если нужна textarea
- const Component = tag;
+   const Component = tag;
    return (
       <Component
          id={id}
