@@ -1,16 +1,49 @@
-# React + Vite
+# Kanban Board — Управление задачами в стиле канбана
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![License](https://img.shields.io/badge/license-MIT-green)
+![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
 
-Currently, two official plugins are available:
+Интерактивная веб‑платформа для организации рабочего процесса по методологии канбан. Позволяет визуализировать задачи, отслеживать их статус и эффективно управлять проектами.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Обзор
 
-## React Compiler
+Kanban Board — это веб‑приложение для управления задачами с наглядным интерфейсом канбан‑доски. Проект создан для личного использования и небольших команд, которым нужен простой и интуитивно понятный инструмент планирования.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Основные возможности
 
-## Expanding the ESLint configuration
+* **Добавление задач**: создание новых карточек с заполнением всех необходимых полей.
+* **Редактирование задач**: изменение заголовка, описания, темы, даты и статуса любой задачи.
+* **Удаление задач**: безопасное удаление карточек с подтверждением действия.
+* **Drag & Drop**: интуитивное перетаскивание задач между колонками с визуальной обратной связью.
+* **Статусы задач**: автоматическое распределение по колонкам:
+  * *To Do* (К выполнению) — задачи, ожидающие начала работы;
+  * *In Progress* (В работе) — текущие активные задачи;
+  * *Review* (На проверке) — задачи, требующие проверки или утверждения;
+  * *Done* (Выполнено) — завершённые задачи.
+* **Смена темы оформления**: переключение между светлой и тёмной темами для комфорта работы в любое время суток.
+* **Уведомления**: визуальные подсказки об успешном выполнении действий (добавление, редактирование, удаление).
+* **Адаптивный дизайн**: корректное отображение на различных устройствах и экранах.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Технологический стек
+
+* **React** — для построения интерактивного пользовательского интерфейса.
+* **React Router** — навигация между разделами приложения.
+* **react-toastify** — система уведомлений (toast‑сообщений) для обратной связи с пользователем.
+* **HTML5 Drag & Drop API** — реализация функционала перетаскивания карточек.
+* **CSS Modules** — модульная система стилей для компонентов.
+* **Context API** — управление глобальным состоянием приложения без внешних библиотек.
+
+## Скриншот интерфейса
+
+![Kanban Board Interface](screenshots/main-interface.png)
+
+> *Примечание: для просмотра скриншота убедитесь, что файл `screenshots/main-interface.png` присутствует в репозитории.*
+
+## Установка и запуск
+
+### Предварительные требования
+
+* Node.js (версия 14 или выше);
+* npm (пакетный менеджер, обычно идёт в комплекте с Node.js).
