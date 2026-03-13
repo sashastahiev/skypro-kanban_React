@@ -7,6 +7,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Content from '../components/Content'
 import styled from "styled-components";
+import TasksContext, { TasksProvider } from "../components/Context/TasksContext";
 const Swrapper = styled.div`
   width: 100vw;
   min-height: 100vh;
@@ -22,13 +23,15 @@ function MainPage() {
   }, [loading]);
 
   return (
-    <Swrapper>
-      <Header />
-        <DndProvider backend={HTML5Backend}>
-          {loading ? <Loader /> : <Content />}
-        </DndProvider>
-      <Outlet />
-    </Swrapper>
+    <TasksProvider>
+      <Swrapper>
+        <Header />
+          <DndProvider backend={HTML5Backend}>
+            {loading ? <Loader /> : <Content />}
+          </DndProvider>
+        <Outlet />
+      </Swrapper>
+    </TasksProvider>
   )
 };
 

@@ -1,2 +1,5 @@
-import {fetchTasks} from "../services/api" 
-export const cardList = await fetchTasks();
+import { fetchTasks } from "../services/api";
+export let cardList = [];
+export async function editList() {
+    cardList = await fetchTasks();
+}

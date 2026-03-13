@@ -4,16 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./AppRoutes";
 import { AuthProvider } from "./components/Context/AuthContext";
 import { ThemeProvider } from "./components/Context/ThemeContext";
-import { TasksProvider } from "./components/Context/TasksContext";
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     {/* BrowserRouter позволяет управлять маршрутизацией в приложении */}
     <BrowserRouter>
       <AuthProvider>
         <ThemeProvider>
-          <TasksProvider>
-            <AppRoutes />
-          </TasksProvider>
+          <AppRoutes />
         </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>

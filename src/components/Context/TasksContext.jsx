@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import { cardList } from "../../js/data";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -7,6 +6,7 @@ import {
   fetchTasksEdit,
   fetchTasksDelete,
 } from "../../services/api";
+import { cardList } from "../../js/data";
 const TasksContext = createContext();
 
 export function TasksProvider({ children }) {
@@ -18,23 +18,24 @@ export function TasksProvider({ children }) {
       _id: taskData._id,
       topic: taskData.topic === "" ? "Research" : taskData.topic,
       title: taskData.title === "" ? "Новая задача" : taskData.title,
-      description: taskData.description,
+      description: taskData.description === "" ? "Подробное описание задачи" : taskData.description,
       date: taskData.date === "" ? new Date() : taskData.date,
       status: taskData.status === "" ? "Без статуса" : taskData.status,
     };
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-    fetchTasksAdd({
+     fetchTasksAdd({
       title: newTask.title,
       topic: newTask.topic,
       status: newTask.status,
       description: newTask.description,
       date: newTask.date,
     });
+    setTasks((prevTasks) => [...prevTasks, newTask]);
     navigate("/");
     notify("Задача сохранена!");
   };
 
   const editTask = (taskData) => {
+    fetchTasksEdit(taskData);
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
         task._id === taskData._id
@@ -49,17 +50,8 @@ export function TasksProvider({ children }) {
           : task,
       ),
     );
-    fetchTasksEdit(taskData);
     navigate("/");
     notify("Задача отредактирована!");
-  };
-
-  const toggleTask = (id) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task._id === id ? { ...task, completed: !task.completed } : task,
-      ),
-    );
   };
 
   const deleteTask = (taskData) => {
@@ -73,7 +65,7 @@ export function TasksProvider({ children }) {
 
   return (
     <TasksContext.Provider
-      value={{ tasks, addTask, editTask, toggleTask, deleteTask }}
+      value={{ tasks, addTask, editTask, deleteTask }}
     >
       {children}
       <ToastContainer />
