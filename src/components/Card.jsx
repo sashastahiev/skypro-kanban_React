@@ -123,8 +123,8 @@ const Card = ({ card, columnId }) => {
         <Scards__item ref={drag} style={{ opacity: isDragging ? 0.5 : 1 }}>
           <Scards__card style={{ background: !theme ? "#20202C" : "" }}>
             <Scards__group>
-              <div className={"card__theme " + colorTopic}>
-                <p className={colorTopic}>{card.topic}</p>
+              <div className={"card__theme " + colorTopic + (!theme ? "_theme" : "")}>
+                <p className={colorTopic + (!theme ? "_theme" : "")}>{card.topic}</p>
               </div>
               <Scard__btn>
                 <Scircle></Scircle>
@@ -133,7 +133,7 @@ const Card = ({ card, columnId }) => {
               </Scard__btn>
             </Scards__group>
             <Scard__content>
-              <a href="#" target="_blank">
+              <a target="_blank">
                 <Scard__title style={{ color: !theme ? "#FFFFFF" : "" }}>
                   {card.title}
                 </Scard__title>

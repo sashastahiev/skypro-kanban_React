@@ -194,8 +194,8 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
         localStorage.setItem("userInfo", JSON.stringify(success));
         notify();
         setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+          navigate("/");
+        }, 1000);
       }
     } catch (err) {
       setError(err.message);

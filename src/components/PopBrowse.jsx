@@ -112,8 +112,8 @@ function PopBrowse({ item }) {
                     {item.title}
                   </h3>
                   <div
-                    className={"categories__theme theme-top " + colorTopic + " _active-category"}>
-                    <p className={colorTopic}>{item.topic}</p>
+                    className={"categories__theme theme-top " + colorTopic + (!theme ? "_theme" : "") + " _active-category"}>
+                    <p className={colorTopic + (!theme ? "_theme" : "")}>{item.topic}</p>
                   </div>
                 </div>
                 <div className="pop-browse__status status">
@@ -234,31 +234,31 @@ function PopBrowse({ item }) {
                         onClick={() => setTopic("Web Design")}
                         className={
                           taskData.topic === "Web Design"
-                            ? "categories__theme _orange cursor _active-category"
-                            : "categories__theme _orange cursor"
+                            ? "categories__theme " + (!theme ? "_orange_theme" : "_orange ") + " cursor _active-category"
+                            : "categories__theme " + (!theme ? "_orange_theme" : "_orange ") + " cursor"
                         }
                       >
-                        <p className="_orange">Web Design</p>
+                        <p className={!theme ? "_orange_theme" : "_orange"}>Web Design</p>
                       </div>
                       <div
                         onClick={() => setTopic("Research")}
                         className={
                           taskData.topic === "Research"
-                            ? "categories__theme _green cursor _active-category"
-                            : "categories__theme _green cursor"
+                            ? "categories__theme " + (!theme ? "_green_theme" : "_green ") + " cursor _active-category"
+                            : "categories__theme " + (!theme ? "_green_theme" : "_green ") + " cursor"
                         }
                       >
-                        <p className="_green">Research</p>
+                        <p className={!theme ? "_green_theme" : "_green"}>Research</p>
                       </div>
                       <div
                         onClick={() => setTopic("Copywriting")}
                         className={
                           taskData.topic === "Copywriting"
-                            ? "categories__theme _purple cursor _active-category"
-                            : "categories__theme _purple cursor"
+                            ? "categories__theme " + (!theme ? "_purple_theme" : "_purple ") + " cursor _active-category"
+                            : "categories__theme " + (!theme ? "_purple_theme" : "_purple ") + " cursor"
                         }
                       >
-                        <p className="_purple">Copywriting</p>
+                        <p className={!theme ? "_purple_theme" : "_purple"}>Copywriting</p>
                       </div>
                     </div>
                   </div>

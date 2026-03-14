@@ -108,7 +108,20 @@ body {
   background-color: #e9d4ff;
   color: #9a48f1;
 }
+._orange_theme {
+  background-color: #ff6d00;
+  color: white;
+}
 
+._green_theme {
+  background-color: #06b16e;
+  color: white;
+}
+
+._purple_theme {
+  background-color: #9a48f1;
+  color: white;
+}
 ._gray {
   background: #94a6be;
   color: #ffffff;
