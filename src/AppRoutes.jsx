@@ -6,10 +6,15 @@ import PageNotFound from "./pages/PageNotFound";
 import NewCardPage from "./pages/NewCardPage";
 import PopUserPage from "./pages/PopUserPage";
 import CardId from "./pages/card/{id)"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PrivateRoute from "./pages/PrivateRoute";
 function AppRoutes() {
-    const [isAuth, setIsAuth] = useState(false);
+    const [isAuth, setIsAuth] = useState(() => {
+        return localStorage.getItem('isAuthenticated') === 'true';
+    });
+    useEffect(() => 
+        localStorage.setItem('isAuthenticated', isAuth)
+    );
     return (
         <Routes>
             <Route element={<PrivateRoute IsAuth={isAuth}/>}>

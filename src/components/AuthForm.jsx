@@ -189,6 +189,7 @@ const AuthForm = ({ IsSign, setIsAuth }) => {
         setError("Неверный email или пароль");
       } else if (success && IsSign) {
         setIsAuth(true);
+        localStorage.setItem('isAuthenticated', true);
         navigate("/");
       } else if (success && !IsSign) {
         localStorage.setItem("userInfo", JSON.stringify(success));

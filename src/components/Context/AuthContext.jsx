@@ -12,6 +12,7 @@ export function AuthProvider({ children }) {
     const data = await signIn(userData);
     if (data) {
       setUser({ name: data.name, login: data.login, password: data.password });
+      localStorage.setItem("userInfo", JSON.stringify(userData));
       return true;
     } else {
       return false;
