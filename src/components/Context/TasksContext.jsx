@@ -1,4 +1,6 @@
-import { createContext, useState } from "react";
+/* eslint-disable no-import-assign */
+/* eslint-disable react-hooks/rules-of-hooks */
+import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import {
@@ -6,10 +8,16 @@ import {
   fetchTasksEdit,
   fetchTasksDelete,
 } from "../../services/api";
-import { cardList } from "../../js/data";
+import { cardList, editList } from "../../js/data";
 const TasksContext = createContext();
 
-export function TasksProvider({ children }) {
+export const TasksProvider = ({ children }) => {
+  useEffect(() => {
+    async function UpdateList() {
+      editList();
+    };
+    UpdateList();
+  });
   const [tasks, setTasks] = useState(cardList);
   const navigate = useNavigate();
   const notify = (data) => toast(data);

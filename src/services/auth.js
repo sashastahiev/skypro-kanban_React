@@ -9,7 +9,7 @@ export async function signIn(Userdata) {
          },
       });
       localStorage.setItem('token', data.data.user.token);
-      await editList()
+      await editList();
       return data.data.user
    } catch (error) {
       throw new Error(error.response.data.error);
