@@ -7,14 +7,16 @@ import {
   fetchTasksAdd,
   fetchTasksEdit,
   fetchTasksDelete,
+  fetchTasks,
 } from "../../services/api";
-import { cardList, editList } from "../../js/data";
+import { cardList } from "../../js/data";
 const TasksContext = createContext();
 
 export const TasksProvider = ({ children }) => {
   useEffect(() => {
     async function UpdateList() {
-      editList();
+     const data = await fetchTasks()
+     setTasks(data);
     };
     UpdateList();
   });
